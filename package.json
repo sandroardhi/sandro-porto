@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "locomotive-scroll": "^4.1.4",
+    "@splidejs/vue-splide": "^0.6.12",
+    "@studio-freight/lenis": "^1.0.42",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-marquee-slider": "^1.0.6",
+    "vue-router": "^4.3.0",
+    "vue3-marquee": "^4.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
