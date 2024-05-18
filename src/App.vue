@@ -1,15 +1,18 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView, useRoute } from "vue-router";
 
+const route = useRoute()
 </script>
 
 <template>
-  <RouterView />
+  <router-view v-slot="{ Component, route }">
+    <component :is="Component" :key="route.path" />
+  </router-view>
 </template>
 
 <style>
 @font-face {
-    font-family: "Nimbus Sans";
-    src: url('@/assets/fonts/NimbusSanL-Reg.otf');
+  font-family: "Nimbus Sans";
+  src: url("@/assets/fonts/NimbusSanL-Reg.otf");
 }
 </style>

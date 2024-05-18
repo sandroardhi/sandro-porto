@@ -175,8 +175,8 @@
         >
           <SplideTrack>
             <SplideSlide v-for="(project, i) in filteredOtherProjects" :key="i">
-              <a
-                :href="'/project-detail/' + project.id"
+              <router-link
+                :to="'project-detail/' + project.id"
                 class="w-full h-full relative"
               >
                 <div class="splide__slide__container mt-[5rem]">
@@ -217,7 +217,7 @@
                     </div>
                   </div>
                 </div>
-              </a>
+              </router-link>
             </SplideSlide>
           </SplideTrack>
 
