@@ -176,7 +176,7 @@
           <SplideTrack>
             <SplideSlide v-for="(project, i) in filteredOtherProjects" :key="i">
               <router-link
-                :to="'project-detail/' + project.id"
+                :to="'/project-detail/' + project.id"
                 class="w-full h-full relative"
               >
                 <div class="splide__slide__container mt-[5rem]">
