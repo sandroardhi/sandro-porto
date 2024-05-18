@@ -3,7 +3,7 @@
         "id" : "1",
         "projectName" : "KoKu!",
         "projectDesc" : "KoKu! or Kantin Online Ku, is a web-based app that i build using Vue.JS, Laravel and TailwindCSS. This project's theme, as its name suggest, is Online School Canteen. I made this project for my school's final assignment.",
-        "projectImg" : "sandro-porto/images/projects-photo/koku_1.png",
+        "projectImg" : "images/projects-photo/koku_1.png",
         "techStack" : [
             {
                 "techName": "Vue.JS",
@@ -27,75 +27,75 @@
         "challanges" : "This project have a pretty complicated payouts feature that i successfully (barely) implement. There is also the multiple roles for user that is essential for this project functionality",
         "projectDetail" : [
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_1.png",
+                "detailImg" : "images/projects-photo/koku_1.png",
                 "detailDesc" : "the homepage, i make the UI to be simple and straightforward"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_2.png",
+                "detailImg" : "images/projects-photo/koku_2.png",
                 "detailDesc" : "the Kantin's detail, here are the products that each kantin listed and user can buy"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_3.png",
+                "detailImg" : "images/projects-photo/koku_3.png",
                 "detailDesc" : "the list of kantin available in the school"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_4.png",
+                "detailImg" : "images/projects-photo/koku_4.png",
                 "detailDesc" : "this is where the user have their destination for delivery"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_5.png",
+                "detailImg" : "images/projects-photo/koku_5.png",
                 "detailDesc" : "the user's cart, here they can choose the delivery method and payment method"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_6.png",
+                "detailImg" : "images/projects-photo/koku_6.png",
                 "detailDesc" : "i use Midtrans payment gateway for the online payment method"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_7.png",
+                "detailImg" : "images/projects-photo/koku_7.png",
                 "detailDesc" : "user can see their orders info "
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_7_(2).png",
+                "detailImg" : "images/projects-photo/koku_7_(2).png",
                 "detailDesc" : "user can confirm their order after the order is completed "
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_8.png",
+                "detailImg" : "images/projects-photo/koku_8.png",
                 "detailDesc" : "this is the kantin owner or penjual dashboard, they can see the overview for today's transcaction and transaction report"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_9.png",
+                "detailImg" : "images/projects-photo/koku_9.png",
                 "detailDesc" : "this is kantin management and product management, penjual can edit and add products and their kantin info"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_10.png",
+                "detailImg" : "images/projects-photo/koku_10.png",
                 "detailDesc" : "this is the ongoing order page, there is also the completed and failed order page"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_11.png",
+                "detailImg" : "images/projects-photo/koku_11.png",
                 "detailDesc" : "this is the pengantar or delivery person dashboard, they can see the overview for today's transcaction and transaction report"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_12.png",
+                "detailImg" : "images/projects-photo/koku_12.png",
                 "detailDesc" : "this is the ongoing order page for pengantar, there is also there is also the completed and failed order page"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_14.png",
+                "detailImg" : "images/projects-photo/koku_14.png",
                 "detailDesc" : "this is the admin dashboard, they can see the overview for today's transaction and payment report"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_15.png",
+                "detailImg" : "images/projects-photo/koku_15.png",
                 "detailDesc" : "this is the user management page for admin"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_16.png",
+                "detailImg" : "images/projects-photo/koku_16.png",
                 "detailDesc" : "this is the category management page"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_17.png",
+                "detailImg" : "images/projects-photo/koku_17.png",
                 "detailDesc" : "this is the roles and permission management page, i use laravel spatie for the roles and permission function"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/koku_18.png",
+                "detailImg" : "images/projects-photo/koku_18.png",
                 "detailDesc" : "this is the payout page, admin supposed to pay the kantin because of the nature of Midtrans payment gateway, because all the money that is from the transaction will be going to the one admin's designated credit card, admin will have to pay the kantin and pengantar for their money. there is also refund page for the user"
             }
         ]
@@ -104,7 +104,7 @@
         "id" : "2",
         "projectName" : "Clean Sweep",
         "projectDesc" : "Clean Sweep is a web-based app that is built using Laravel and TailwindCSS. This app is something like a small e-commerce for a Cleaning Equipment Store that my friend's parents had.",
-        "projectImg" : "sandro-porto/images/projects-photo/cs_1.png",
+        "projectImg" : "images/projects-photo/cs_1.png",
         "techStack" : [
             {
                 "techName": "Laravel",
@@ -122,59 +122,59 @@
         "challanges" : "At that time i was doing my other project too, so i am a bit overwhelmed doing multiple projects at the same time but that gives me the experience of doing something under pressure, and it come out fine.",
         "projectDetail" : [
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_1.png",
+                "detailImg" : "images/projects-photo/cs_1.png",
                 "detailDesc" : "Homepage, this project UI is more to the simplicity and experience for the user"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_2.png",
+                "detailImg" : "images/projects-photo/cs_2.png",
                 "detailDesc" : "this products here is the highlight in the homepage"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_3.png",
+                "detailImg" : "images/projects-photo/cs_3.png",
                 "detailDesc" : "this is the tutorial for purchasing the products"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_4.png",
+                "detailImg" : "images/projects-photo/cs_4.png",
                 "detailDesc" : "this is the products catalogue, you can browse/search the name and types of products that you want"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_5.png",
+                "detailImg" : "images/projects-photo/cs_5.png",
                 "detailDesc" : "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_6.png",
+                "detailImg" : "images/projects-photo/cs_6.png",
                 "detailDesc" : "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_7.png",
+                "detailImg" : "images/projects-photo/cs_7.png",
                 "detailDesc" : "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_8.png",
+                "detailImg" : "images/projects-photo/cs_8.png",
                 "detailDesc" : "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_9.png",
+                "detailImg" : "images/projects-photo/cs_9.png",
                 "detailDesc" : "this is the payment screen, i use Midtrans payment gateway for this"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_10.png",
+                "detailImg" : "images/projects-photo/cs_10.png",
                 "detailDesc" : "this is where the user can see their transaction history"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_11.png",
+                "detailImg" : "images/projects-photo/cs_11.png",
                 "detailDesc" : "this is the admin panel for user management"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_12.png",
+                "detailImg" : "images/projects-photo/cs_12.png",
                 "detailDesc" : "this is the admin panel for products management"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_13.png",
+                "detailImg" : "images/projects-photo/cs_13.png",
                 "detailDesc" : "this is the admin panel for types management"
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/cs_14.png",
+                "detailImg" : "images/projects-photo/cs_14.png",
                 "detailDesc" : "this is the admin panel for transaction management"
             }
         ]
@@ -183,7 +183,7 @@
         "id" : "3",
         "projectName" : "Review Resto",
         "projectDesc" : "This is my first ever Vue.js and Laravel project, i learn with this project the usage of API, TailwindCSS, Axios etc. A very simple project.",
-        "projectImg" : "sandro-porto/images/projects-photo/rr_1.png",
+        "projectImg" : "images/projects-photo/rr_1.png",
         "techStack" : [
             {
                 "techName": "Vue.JS",
@@ -207,23 +207,23 @@
         "challanges" : "Because this is my first project after i learn the basics of Vue.JS and Laravel, i was struggling to implement the knowledge to this project.",
         "projectDetail" : [
             {
-                "detailImg" : "sandro-porto/images/projects-photo/rr_1.png",
+                "detailImg" : "images/projects-photo/rr_1.png",
                 "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/rr_2.png",
+                "detailImg" : "images/projects-photo/rr_2.png",
                 "detailDesc" : "The resto detail, in here user can see the detail of the chosen resto."
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/rr_3.png",
+                "detailImg" : "images/projects-photo/rr_3.png",
                 "detailDesc" : "the reviews section, it is inside of the resto detail page. User can see other user's reviews and make their own review."
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/rr_4.png",
+                "detailImg" : "images/projects-photo/rr_4.png",
                 "detailDesc" : "This is the resto creating page."
             },
             {
-                "detailImg" : "sandro-porto/images/projects-photo/rr_5.png",
+                "detailImg" : "images/projects-photo/rr_5.png",
                 "detailDesc" : "This is the profile and resto management page."
             }
         ]

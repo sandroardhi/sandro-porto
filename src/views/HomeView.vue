@@ -25,7 +25,7 @@
               and</span
             >
             <span class="text-[#E1EFF3] text-5xl text-pretty lg:text-6xl"
-              >Welcome to img 2's portofolio.</span
+              >Welcome to img 3's portofolio.</span
             >
             <!-- <span class="absolute -bottom-5 right"
               >Before we begin...</span
