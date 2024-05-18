@@ -88,7 +88,7 @@
             :key="i"
           >
             <img
-              :src="project.detailImg"
+              :src="'/sandro-porto//' + project.detailImg"
               :alt="filteredProject.projectName"
             />
             <div
@@ -181,7 +181,7 @@
               >
                 <div class="splide__slide__container mt-[5rem]">
                   <img
-                    :src="project.projectImg"
+                    :src="'/sandro-porto/' + project.projectImg"
                     :alt="project.projectName"
                   />
                 </div>
