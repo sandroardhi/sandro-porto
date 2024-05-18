@@ -8,7 +8,7 @@
       :id="'skillLogo' + props.id"
     >
       <img
-        :src="`@/images/skill-logos/${props.skillLogo}`"
+        :src="`/images/skill-logos/${props.skillLogo}`"
         alt="skill-logo"
         class="h-[36px] object-contain object-center"
       />
