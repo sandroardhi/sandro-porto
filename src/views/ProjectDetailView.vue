@@ -88,7 +88,7 @@
             :key="i"
           >
             <img
-              :src="'/' + project.detailImg"
+              :src="project.detailImg"
               :alt="filteredProject.projectName"
             />
             <div
@@ -181,7 +181,7 @@
               >
                 <div class="splide__slide__container mt-[5rem]">
                   <img
-                    :src="'/' + project.projectImg"
+                    :src="project.projectImg"
                     :alt="project.projectName"
                   />
                 </div>
