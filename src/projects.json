@@ -4,6 +4,7 @@
         "projectName" : "KoKu!",
         "projectDesc" : "KoKu! or Kantin Online Ku, is a web-based app that i build using Vue.JS, Laravel and TailwindCSS. This project's theme, as its name suggest, is Online School Canteen. I made this project for my school's final assignment.",
         "projectImg" : "images/projects-photo/koku_1.png",
+        "projectUrl" : null,
         "techStack" : [
             {
                 "techName": "Vue.JS",
@@ -105,6 +106,7 @@
         "projectName" : "Clean Sweep",
         "projectDesc" : "Clean Sweep is a web-based app that is built using Laravel and TailwindCSS. This app is something like a small e-commerce for a Cleaning Equipment Store that my friend's parents had.",
         "projectImg" : "images/projects-photo/cs_1.png",
+        "projectUrl" : null,
         "techStack" : [
             {
                 "techName": "Laravel",
@@ -181,9 +183,86 @@
     },
     {
         "id" : "3",
+        "projectName" : "Finance Tracker",
+        "projectDesc" : "This is as its name suggest, a web app that help it's user manage their income/expenses. I make this project from my Nuxt Mastery course.",
+        "projectImg" : "images/projects-photo/ft_1.png",
+        "projectUrl" : "https://finance-tracker-punyil.vercel.app/",
+        "techStack" : [
+            {
+                "techName": "Nuxt.JS",
+                "techLogo": "nuxt.png",
+                "id" : 1,
+                "techDesc": "Nuxt.js is a free and open source web application framework dependent on Vue.js, Node.js, Webpack, and Babel.js. This framework is promoted as a 'meta framework for universal applications'."
+            },
+            {
+                "techName": "Supabase",
+                "techLogo": "supabase.png",
+                "id" : 2,
+                "techDesc": "Supabase is an open-source alternative to Supabase, built on Postgres.."
+            }
+        ],
+        "challanges" : "A deep-dive project into Nuxt 3, the biggest challange is implementing the new knowledge into practice.",
+        "projectDetail" : [
+            {
+                "detailImg" : "images/projects-photo/ft_1.png",
+                "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
+            },
+            {
+                "detailImg" : "images/projects-photo/ft_2.png",
+                "detailDesc" : "A modal, for better UX."
+            },
+            {
+                "detailImg" : "images/projects-photo/ft_3.png",
+                "detailDesc" : "Preferences settings."
+            }
+        ]
+    },
+    {
+        "id" : "4",
+        "projectName" : "Nuxt Personal Web",
+        "projectDesc" : "A simple personal website that i built using Nuxt's Document-Drive mode.",
+        "projectImg" : "images/projects-photo/pb_1.png",
+        "projectUrl" : "https://nuxt-personal-web.vercel.app/",
+        "techStack" : [
+            {
+                "techName": "Nuxt.JS",
+                "techLogo": "Nuxt.png",
+                "id" : 1,
+                "techDesc": "Nuxt.js is a free and open source web application framework dependent on Vue.js, Node.js, Webpack, and Babel.js. This framework is promoted as a 'meta framework for universal applications'."
+            },
+            {
+                "techName": "TailwindCSS",
+                "techLogo": "tailwind.svg",
+                "id" : 2,
+                "techDesc":   "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want."
+            }
+        ],
+        "challanges" : "Using Markdown syntax for the first time is a bit confusing.",
+        "projectDetail" : [
+            {
+                "detailImg" : "images/projects-photo/pb_1.png",
+                "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
+            },
+            {
+                "detailImg" : "images/projects-photo/pb_2.png",
+                "detailDesc" : "My about page."
+            },
+            {
+                "detailImg" : "images/projects-photo/pb_3.png",
+                "detailDesc" : "This page is synced with my Github page."
+            },
+            {
+                "detailImg" : "images/projects-photo/pb_4.png",
+                "detailDesc" : "The blog page, there is a dynamic table of contents that i am a bit proud of haha."
+            }
+        ]
+    },
+    {
+        "id" : "5",
         "projectName" : "Review Resto",
         "projectDesc" : "This is my first ever Vue.js and Laravel project, i learn with this project the usage of API, TailwindCSS, Axios etc. A very simple project.",
         "projectImg" : "images/projects-photo/rr_1.png",
+        "projectUrl" : null,
         "techStack" : [
             {
                 "techName": "Vue.JS",

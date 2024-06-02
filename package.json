@@ -11,8 +11,8 @@
   "dependencies": {
     "@splidejs/vue-splide": "^0.6.12",
     "@studio-freight/lenis": "^1.0.42",
+    "gsap": "^3.12.5",
     "vue": "^3.4.21",
-    "vue-marquee-slider": "^1.0.6",
     "vue-router": "^4.3.0",
     "vue3-marquee": "^4.2.0"
   },
