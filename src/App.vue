@@ -15,4 +15,14 @@ const route = useRoute()
   font-family: "Nimbus Sans";
   src: url("@/assets/fonts/NimbusSanL-Reg.otf");
 }
+div {
+  box-sizing: border-box;
+}
+
+/* A good global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 </style>

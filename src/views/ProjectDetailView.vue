@@ -1,8 +1,10 @@
 <template>
   <base-container>
     <navbar-component></navbar-component>
-    <section-container class="mt-[5rem] mb-10">
-      <div class="w-full flex justify-center items-center h-auto relative">
+    <section-container class="mt-[5rem] mb-10 px-[1rem] md:px-[2rem]">
+      <div
+        class="w-full flex justify-center items-center h-auto relative mb-[1rem]"
+      >
         <router-link to="/" class="absolute left-0 w-8 h-8"
           ><svg
             viewBox="0 0 1024 1024"
@@ -26,21 +28,26 @@
             </g>
           </svg>
         </router-link>
-        <span class="w-[50px] h-[3px] bg-[#30363D] mr-2"></span>
-        <h1 class="text-3xl md:text-5xl text-white font-bold">
+        <span class="w-[50px] h-[2px] bg-[#30363D] mr-4"></span>
+        <h1
+          class="text-3xl md:text-5xl text-white font-bold relative z-[1] after:absolute after:content-[''] after:w-full after:h-[9px] after:bg-purple-600 after:bottom-[2px] after:left-0 after:z-[-1]"
+        >
           {{ filteredProject.projectName }}
         </h1>
-        <span class="w-[50px] h-[3px] bg-[#30363D] ml-2"></span>
+        <span class="w-[50px] h-[2px] bg-[#30363D] ml-4"></span>
       </div>
       <div>
         <div class="w-full flex items-center">
           <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
             Project's Overview
           </h1>
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
         </div>
-        <div class="p-3 w-4/5 mx-auto">
-          <p class="text-white text-xl">{{ filteredProject.projectDesc }}</p>
+        <div class="px-3 pb-4 lg:w-4/5">
+          <p
+            class="text-white text-xl project-desc"
+            v-html="filteredProject.projectDesc"
+          ></p>
         </div>
       </div>
       <div>
@@ -48,11 +55,11 @@
           <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
             Project's Tech Stack
           </h1>
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
         </div>
-        <div class="p-3 w-4/5 mx-auto">
+        <div class="px-3 pb-4 lg:w-4/5">
           <div
-            class="w-full h-auto mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            class="w-full h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           >
             <div
               class="col-span-1 h-16"
@@ -69,6 +76,21 @@
           </div>
         </div>
       </div>
+      <div>
+        <div
+          class="w-full flex items-center"
+          v-if="filteredProject.responsibilities"
+        >
+          <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
+            Responsibilities
+          </h1>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
+        </div>
+        <div
+          class="px-3 pb-4 lg:w-4/5 text-white responsibilities"
+          v-html="filteredProject.responsibilities"
+        ></div>
+      </div>
       <Splide
         @splide:active="onSplideActive"
         :has-track="false"
@@ -80,7 +102,7 @@
           <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
             Project's Screenshot
           </h1>
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
         </div>
         <SplideTrack>
           <SplideSlide
@@ -93,9 +115,9 @@
             />
             <div
               :id="'projectDesc_' + i"
-              class="opacity-0 max-h-[100px] transition-all ease-in-out duration-300 flex flex-col items-center text-white justify-center"
+              class="opacity-0 max-h-[100px] transition-all ease-in-out duration-300 flex flex-col text-white"
             >
-              <p class="mt-2">
+              <p class="mt-2 first-letter:uppercase">
                 {{ project.detailDesc }}
               </p>
             </div>
@@ -147,31 +169,33 @@
           </button>
         </div>
       </Splide>
-      <div class="">
+      <div class="mt-5">
         <div class="w-full flex items-center">
           <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
             Project's Challanges
           </h1>
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
         </div>
-        <div class="p-3 w-4/5 mx-auto">
+        <div class="px-3 pb-4 lg:w-4/5">
           <p class="text-white text-xl">{{ filteredProject.challanges }}</p>
         </div>
       </div>
       <div class="">
         <div class="w-full flex items-center">
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
-          <h1 class="text-2xl md:text-4xl py-3 px-2 my-2 text-white">
+          <span class="flex-grow mr-4 h-[2px] bg-[#30363D] inline-block"></span>
+          <h1
+            class="text-2xl md:text-4xl px-2 my-7 text-white relative z-[1] after:absolute after:content-[''] after:w-full after:h-[10px] after:bg-purple-600 after:bottom-[2px] after:left-0 after:z-[-1]"
+          >
             Other Projects
           </h1>
-          <span class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"></span>
+          <span class="flex-grow ml-4 h-[2px] bg-[#30363D] inline-block"></span>
         </div>
         <Splide
           @splide:active="onSplideActive2"
           :has-track="false"
           :options="options2"
           aria-label="Projects Carousel"
-          class="mx-auto text-white"
+          class="text-white"
         >
           <SplideTrack>
             <SplideSlide v-for="(project, i) in filteredOtherProjects" :key="i">
@@ -201,7 +225,7 @@
                   <div class="w-full h-auto flex justify-between mt-3">
                     <div class="flex flex-wrap">
                       <p
-                        class="px-2 py-1 rounded-full border-2 w-fit mx-1 my-1 text-xs md:text-md lg:text-xl"
+                        class="px-2 py-1 rounded-full border-2 w-fit mx-1 my-1 text-xs md:text-base"
                         v-for="(tech, i) in project.techStack"
                         :key="i"
                       >
@@ -388,4 +412,22 @@ onMounted(() => {
   console.log(filteredProject.value);
 });
 </script>
-<style></style>
+
+<style>
+.project-desc a {
+  text-decoration: underline;
+  text-decoration-color: #fff;
+}
+.responsibilities p {
+  @apply text-xl mb-4;
+}
+.responsibilities li h6 {
+  @apply text-xl font-medium;
+}
+.responsibilities li {
+  @apply mb-3 text-lg text-pretty;
+}
+.responsibilities ul {
+  @apply list-disc mb-2 pl-4;
+}
+</style>

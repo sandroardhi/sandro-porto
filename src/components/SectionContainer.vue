@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`w-full h-screen bg-[${props.bgColor}] relative flex justify-center items-center`"
+    :class="`w-full min-h-screen bg-[${props.bgColor}] relative flex justify-center items-center`"
   >
     <slot></slot>
   </div>

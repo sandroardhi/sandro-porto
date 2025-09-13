@@ -1,310 +1,400 @@
 [
-    {
-        "id" : "1",
-        "projectName" : "KoKu!",
-        "projectDesc" : "KoKu! or Kantin Online Ku, is a web-based app that i build using Vue.JS, Laravel and TailwindCSS. This project's theme, as its name suggest, is Online School Canteen. I made this project for my school's final assignment.",
-        "projectImg" : "images/projects-photo/koku_1.png",
-        "projectUrl" : null,
-        "techStack" : [
-            {
-                "techName": "Vue.JS",
-                "techLogo": "vue.png",
-                "id" : 1,
-                "techDesc": "Vue (pronounced /vjuː/, like view) is a JavaScript framework for building user interfaces. It builds on top of standard HTML, CSS, and JavaScript and provides a declarative, component-based programming model that helps you efficiently develop user interfaces of any complexity."
-            },
-            {
-                "techName": "Laravel",
-                "techLogo": "laravel.png",
-                "id" : 2,
-                "techDesc": "Laravel is a free and open-source PHP- based web framework for building high-end web applications. It was created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony. Some of the features of Laravel include modular packaging system with a dedicated dependency manager, different ways for accessing relational databases, utilities that aid in application deployment and maintenance, and its orientation toward syntactic sugar."
-            },
-            {
-                "techName": "TailwindCSS",
-                "techLogo": "tailwind.svg",
-                "id" : 3,
-                "techDesc":   "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want."
-            }
-        ],
-        "challanges" : "This project have a pretty complicated payouts feature that i successfully (barely) implement. There is also the multiple roles for user that is essential for this project functionality",
-        "projectDetail" : [
-            {
-                "detailImg" : "images/projects-photo/koku_1.png",
-                "detailDesc" : "the homepage, i make the UI to be simple and straightforward"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_2.png",
-                "detailDesc" : "the Kantin's detail, here are the products that each kantin listed and user can buy"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_3.png",
-                "detailDesc" : "the list of kantin available in the school"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_4.png",
-                "detailDesc" : "this is where the user have their destination for delivery"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_5.png",
-                "detailDesc" : "the user's cart, here they can choose the delivery method and payment method"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_6.png",
-                "detailDesc" : "i use Midtrans payment gateway for the online payment method"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_7.png",
-                "detailDesc" : "user can see their orders info "
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_7_(2).png",
-                "detailDesc" : "user can confirm their order after the order is completed "
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_8.png",
-                "detailDesc" : "this is the kantin owner or penjual dashboard, they can see the overview for today's transcaction and transaction report"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_9.png",
-                "detailDesc" : "this is kantin management and product management, penjual can edit and add products and their kantin info"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_10.png",
-                "detailDesc" : "this is the ongoing order page, there is also the completed and failed order page"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_11.png",
-                "detailDesc" : "this is the pengantar or delivery person dashboard, they can see the overview for today's transcaction and transaction report"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_12.png",
-                "detailDesc" : "this is the ongoing order page for pengantar, there is also there is also the completed and failed order page"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_14.png",
-                "detailDesc" : "this is the admin dashboard, they can see the overview for today's transaction and payment report"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_15.png",
-                "detailDesc" : "this is the user management page for admin"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_16.png",
-                "detailDesc" : "this is the category management page"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_17.png",
-                "detailDesc" : "this is the roles and permission management page, i use laravel spatie for the roles and permission function"
-            },
-            {
-                "detailImg" : "images/projects-photo/koku_18.png",
-                "detailDesc" : "this is the payout page, admin supposed to pay the kantin because of the nature of Midtrans payment gateway, because all the money that is from the transaction will be going to the one admin's designated credit card, admin will have to pay the kantin and pengantar for their money. there is also refund page for the user"
-            }
-        ]
-    },
-    {
-        "id" : "2",
-        "projectName" : "Clean Sweep",
-        "projectDesc" : "Clean Sweep is a web-based app that is built using Laravel and TailwindCSS. This app is something like a small e-commerce for a Cleaning Equipment Store that my friend's parents had.",
-        "projectImg" : "images/projects-photo/cs_1.png",
-        "projectUrl" : null,
-        "techStack" : [
-            {
-                "techName": "Laravel",
-                "techLogo": "laravel.png",
-                "id" : 1,
-                "techDesc": "Laravel is a free and open-source PHP- based web framework for building high-end web applications. It was created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony. Some of the features of Laravel include modular packaging system with a dedicated dependency manager, different ways for accessing relational databases, utilities that aid in application deployment and maintenance, and its orientation toward syntactic sugar."
-            },
-            {
-                "techName": "TailwindCSS",
-                "techLogo": "tailwind.svg",
-                "id" : 2,
-                "techDesc":   "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want."
-            }
-        ],      
-        "challanges" : "At that time i was doing my other project too, so i am a bit overwhelmed doing multiple projects at the same time but that gives me the experience of doing something under pressure, and it come out fine.",
-        "projectDetail" : [
-            {
-                "detailImg" : "images/projects-photo/cs_1.png",
-                "detailDesc" : "Homepage, this project UI is more to the simplicity and experience for the user"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_2.png",
-                "detailDesc" : "this products here is the highlight in the homepage"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_3.png",
-                "detailDesc" : "this is the tutorial for purchasing the products"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_4.png",
-                "detailDesc" : "this is the products catalogue, you can browse/search the name and types of products that you want"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_5.png",
-                "detailDesc" : "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_6.png",
-                "detailDesc" : "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_7.png",
-                "detailDesc" : "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_8.png",
-                "detailDesc" : "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_9.png",
-                "detailDesc" : "this is the payment screen, i use Midtrans payment gateway for this"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_10.png",
-                "detailDesc" : "this is where the user can see their transaction history"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_11.png",
-                "detailDesc" : "this is the admin panel for user management"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_12.png",
-                "detailDesc" : "this is the admin panel for products management"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_13.png",
-                "detailDesc" : "this is the admin panel for types management"
-            },
-            {
-                "detailImg" : "images/projects-photo/cs_14.png",
-                "detailDesc" : "this is the admin panel for transaction management"
-            }
-        ]
-    },
-    {
-        "id" : "3",
-        "projectName" : "Finance Tracker",
-        "projectDesc" : "This is as its name suggest, a web app that help it's user manage their income/expenses. I make this project from my Nuxt Mastery course.",
-        "projectImg" : "images/projects-photo/ft_1.png",
-        "projectUrl" : "https://finance-tracker-punyil.vercel.app/",
-        "techStack" : [
-            {
-                "techName": "Nuxt.JS",
-                "techLogo": "nuxt.png",
-                "id" : 1,
-                "techDesc": "Nuxt.js is a free and open source web application framework dependent on Vue.js, Node.js, Webpack, and Babel.js. This framework is promoted as a 'meta framework for universal applications'."
-            },
-            {
-                "techName": "Supabase",
-                "techLogo": "supabase.png",
-                "id" : 2,
-                "techDesc": "Supabase is an open-source alternative to Supabase, built on Postgres.."
-            }
-        ],
-        "challanges" : "A deep-dive project into Nuxt 3, the biggest challange is implementing the new knowledge into practice.",
-        "projectDetail" : [
-            {
-                "detailImg" : "images/projects-photo/ft_1.png",
-                "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
-            },
-            {
-                "detailImg" : "images/projects-photo/ft_2.png",
-                "detailDesc" : "A modal, for better UX."
-            },
-            {
-                "detailImg" : "images/projects-photo/ft_3.png",
-                "detailDesc" : "Preferences settings."
-            }
-        ]
-    },
-    {
-        "id" : "4",
-        "projectName" : "Nuxt Personal Web",
-        "projectDesc" : "A simple personal website that i built using Nuxt's Document-Drive mode.",
-        "projectImg" : "images/projects-photo/pb_1.png",
-        "projectUrl" : "https://nuxt-personal-web.vercel.app/",
-        "techStack" : [
-            {
-                "techName": "Nuxt.JS",
-                "techLogo": "Nuxt.png",
-                "id" : 1,
-                "techDesc": "Nuxt.js is a free and open source web application framework dependent on Vue.js, Node.js, Webpack, and Babel.js. This framework is promoted as a 'meta framework for universal applications'."
-            },
-            {
-                "techName": "TailwindCSS",
-                "techLogo": "tailwind.svg",
-                "id" : 2,
-                "techDesc":   "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want."
-            }
-        ],
-        "challanges" : "Using Markdown syntax for the first time is a bit confusing.",
-        "projectDetail" : [
-            {
-                "detailImg" : "images/projects-photo/pb_1.png",
-                "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
-            },
-            {
-                "detailImg" : "images/projects-photo/pb_2.png",
-                "detailDesc" : "My about page."
-            },
-            {
-                "detailImg" : "images/projects-photo/pb_3.png",
-                "detailDesc" : "This page is synced with my Github page."
-            },
-            {
-                "detailImg" : "images/projects-photo/pb_4.png",
-                "detailDesc" : "The blog page, there is a dynamic table of contents that i am a bit proud of haha."
-            }
-        ]
-    },
-    {
-        "id" : "5",
-        "projectName" : "Review Resto",
-        "projectDesc" : "This is my first ever Vue.js and Laravel project, i learn with this project the usage of API, TailwindCSS, Axios etc. A very simple project.",
-        "projectImg" : "images/projects-photo/rr_1.png",
-        "projectUrl" : null,
-        "techStack" : [
-            {
-                "techName": "Vue.JS",
-                "techLogo": "vue.png",
-                "id" : 1,
-                "techDesc": "Vue (pronounced /vjuː/, like view) is a JavaScript framework for building user interfaces. It builds on top of standard HTML, CSS, and JavaScript and provides a declarative, component-based programming model that helps you efficiently develop user interfaces of any complexity."
-            },
-            {
-                "techName": "Laravel",
-                "techLogo": "laravel.png",
-                "id" : 2,
-                "techDesc": "Laravel is a free and open-source PHP- based web framework for building high-end web applications. It was created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony. Some of the features of Laravel include modular packaging system with a dedicated dependency manager, different ways for accessing relational databases, utilities that aid in application deployment and maintenance, and its orientation toward syntactic sugar."
-            },
-            {
-                "techName": "TailwindCSS",
-                "techLogo": "tailwind.svg",
-                "id" : 3,
-                "techDesc":   "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want."
-            }
-        ],
-        "challanges" : "Because this is my first project after i learn the basics of Vue.JS and Laravel, i was struggling to implement the knowledge to this project.",
-        "projectDetail" : [
-            {
-                "detailImg" : "images/projects-photo/rr_1.png",
-                "detailDesc" : "the homepage, the UI is very simplisistic and very straightforward."
-            },
-            {
-                "detailImg" : "images/projects-photo/rr_2.png",
-                "detailDesc" : "The resto detail, in here user can see the detail of the chosen resto."
-            },
-            {
-                "detailImg" : "images/projects-photo/rr_3.png",
-                "detailDesc" : "the reviews section, it is inside of the resto detail page. User can see other user's reviews and make their own review."
-            },
-            {
-                "detailImg" : "images/projects-photo/rr_4.png",
-                "detailDesc" : "This is the resto creating page."
-            },
-            {
-                "detailImg" : "images/projects-photo/rr_5.png",
-                "detailDesc" : "This is the profile and resto management page."
-            }
-        ]
-    }
+  {
+    "id": "6",
+    "projectName": "Trukmu",
+    "projectDesc": "Trukmu (link: <a href='trukmu.com' target='_blank' rel='noopener noreferrer'>trukmu.com</a>) is the official web platform for PT. Sriwijaya Lintas Nusantara, a leading expedition and logistics company. The project was designed to modernize their customer-facing services by providing a fast, reliable, and user-friendly way for users to calculate shipping rates and access information about their expedition services.",
+    "projectImg": "images/projects-photo/trukmu_1.webp",
+    "projectUrl": "trukmu.com",
+    "techStack": [
+      {
+        "techName": "Nuxt.js",
+        "techLogo": "nuxt.svg",
+        "id": 1
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 3
+      }
+    ],
+    "challanges": "A key challenge was translating the complex business logic of shipping rate calculations, with its many variables like origin, destination, and weight, into a simple and intuitive user interface. To overcome this, I focused on designing a clean, step-by-step user flow. By breaking down the complex form into manageable parts, this approach guides the user through the process effortlessly and significantly improves the overall user experience.",
+    "responsibilities": "<p> As the sole Frontend Developer on this project, I was responsible for the entire client-side experience, from initial design to final implementation. </p> <ul> <li> <h6>End-to-End Frontend Development</h6> Led the complete development of the user interface from scratch using Nuxt.js, ensuring a performant and scalable application. </li> <li> <h6>UI/UX Design & Implementation</h6> Designed the user interface and experience with a focus on simplicity and clarity, then translated the designs into pixel-perfect, responsive code using TailwindCSS. </li> <li> <h6>API Integration</h6> Collaborated closely with the backend team to define API endpoints and seamlessly integrated the frontend with backend services to fetch and display dynamic data for shipping rates, locations, and services. </li> <li> <h6>Component-Based Architecture</h6> Built a library of reusable Vue.js components to maintain a consistent design system and accelerate development speed. </li> <li> <h6>Cross-Browser Compatibility & Responsiveness</h6> Ensured the application provides a seamless and consistent experience across all modern browsers and devices, from mobile phones to desktops. </li> </ul>",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/trukmu_1.webp",
+        "detailDesc": "the Homepage, i make the UI to be simple and straightforward. Above the fold is the rate calculator that is the main feature of this project"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_2.webp",
+        "detailDesc": "the Rate page. again, the UI is simple and straightforward. user can calculate their shipping rate here"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_3.webp",
+        "detailDesc": "the About Us section"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_4.webp",
+        "detailDesc": "this is their Coverage Area page, user can see the area that this expedition company covers"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_5.webp",
+        "detailDesc": "this is their Contact Us page"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_6.webp",
+        "detailDesc": "this is their Order Page, user can make an order here. there is 3 steps in this order page and i make it as simple as possible."
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_7.webp",
+        "detailDesc": "This is their dashboard overview"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_8.webp",
+        "detailDesc": "this the profile page, user can edit their profile here"
+      },
+      {
+        "detailImg": "images/projects-photo/trukmu_9.webp",
+        "detailDesc": "this is the Order List page, user can see their order history here"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "projectName": "Adaboard",
+    "projectDesc": "Adaboard (link: <a href='adaboard.id' target='_blank' rel='noopener noreferrer'>adaboard.id</a>) is the foundational web presence for a new software house initiative, envisioned as a subsidiary of my current company. The website's primary goal is to establish a strong and professional brand identity, create a compelling digital front door to attract potential clients, and clearly showcase its vision and future services.",
+    "projectImg": "images/projects-photo/adaboard_1.webp",
+    "projectUrl": "adaboard.id",
+    "techStack": [
+      {
+        "techName": "Nuxt.js",
+        "techLogo": "nuxt.svg",
+        "id": 1
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 3
+      }
+    ],
+    "challanges": "The main challenge was to build a complete digital identity for a new brand from scratch. I solved this by designing a modern UI/UX and implementing it on a server-rendered site using Nuxt.js, strategically chosen for its lightning-fast performance and long-term scalability for future complex features.",
+    "responsibilities": "<p> As the sole Frontend Developer, I was entrusted with the entire process of bringing adaboard.id to life, from conceptual design to a fully functional, deployed website. </p> <ul> <li> <h6>End-to-End Frontend Ownership</h6> I led the project from the initial UI/UX design phase to the final implementation, taking full ownership of the user-facing experience. </li> <li> <h6>Brand-Centric UI/UX Design</h6> I designed the complete user interface with a focus on creating a modern, clean, and professional aesthetic that reflects the innovative identity of a technology company. </li> <li> <h6>Development from Scratch</h6> I built the entire website using Nuxt.js and styled it with TailwindCSS, developing a suite of custom, reusable components for key sections like services, portfolio showcases, etc. </li> <li> <h6>Performance & SEO Optimization</h6> I implemented frontend best practices to ensure exceptionally fast loading times (targeting high Core Web Vitals scores) and built a strong, semantic foundation for future SEO strategies by leveraging Nuxt.js's features. </li> <li> <h6>Interactive User Experience</h6> I integrated subtle animations and micro-interactions to enhance user engagement and create a polished, dynamic browsing experience that encourages exploration. </li> </ul>",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/adaboard_1.webp",
+        "detailDesc": "the Homepage, i make the UI to be modern looking as to show our brand identity."
+      },
+      {
+        "detailImg": "images/projects-photo/adaboard_2.webp",
+        "detailDesc": "this website also support dark mode"
+      },
+      {
+        "detailImg": "images/projects-photo/adaboard_3.webp",
+        "detailDesc": "the Clients page, here are the clients that we have worked with"
+      },
+      {
+        "detailImg": "images/projects-photo/adaboard_4.webp",
+        "detailDesc": "the detail explaining what services we provide to each client"
+      },
+      {
+        "detailImg": "images/projects-photo/adaboard_5.webp",
+        "detailDesc": "our service landing page"
+      }
+    ]
+  },
+  {
+    "id": "1",
+    "projectName": "KoKu!",
+    "projectDesc": "KoKu! or Kantin Online Ku, is a web-based app that i build using Vue.js, Laravel and TailwindCSS. This project's theme, as its name suggest, is Online School Canteen. I made this project for my school's final assignment.",
+    "projectImg": "images/projects-photo/koku_1.png",
+    "projectUrl": null,
+    "techStack": [
+      {
+        "techName": "Vue.js",
+        "techLogo": "vue.png",
+        "id": 1
+      },
+      {
+        "techName": "Laravel",
+        "techLogo": "laravel.png",
+        "id": 2
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 3
+      }
+    ],
+    "challanges": "This project have a pretty complicated payouts feature that i successfully (barely) implement. There is also the multiple roles for user that is essential for this project functionality",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/koku_1.png",
+        "detailDesc": "the homepage, i make the UI to be simple and straightforward"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_2.png",
+        "detailDesc": "the Kantin's detail, here are the products that each kantin listed and user can buy"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_3.png",
+        "detailDesc": "the list of kantin available in the school"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_4.png",
+        "detailDesc": "this is where the user have their destination for delivery"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_5.png",
+        "detailDesc": "the user's cart, here they can choose the delivery method and payment method"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_6.png",
+        "detailDesc": "i use Midtrans payment gateway for the online payment method"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_7.png",
+        "detailDesc": "user can see their orders info "
+      },
+      {
+        "detailImg": "images/projects-photo/koku_7_(2).png",
+        "detailDesc": "user can confirm their order after the order is completed "
+      },
+      {
+        "detailImg": "images/projects-photo/koku_8.png",
+        "detailDesc": "this is the kantin owner or penjual dashboard, they can see the overview for today's transcaction and transaction report"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_9.png",
+        "detailDesc": "this is kantin management and product management, penjual can edit and add products and their kantin info"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_10.png",
+        "detailDesc": "this is the ongoing order page, there is also the completed and failed order page"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_11.png",
+        "detailDesc": "this is the pengantar or delivery person dashboard, they can see the overview for today's transcaction and transaction report"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_12.png",
+        "detailDesc": "this is the ongoing order page for pengantar, there is also there is also the completed and failed order page"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_14.png",
+        "detailDesc": "this is the admin dashboard, they can see the overview for today's transaction and payment report"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_15.png",
+        "detailDesc": "this is the user management page for admin"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_16.png",
+        "detailDesc": "this is the category management page"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_17.png",
+        "detailDesc": "this is the roles and permission management page, i use laravel spatie for the roles and permission function"
+      },
+      {
+        "detailImg": "images/projects-photo/koku_18.png",
+        "detailDesc": "this is the payout page, admin supposed to pay the kantin because of the nature of Midtrans payment gateway, because all the money that is from the transaction will be going to the one admin's designated credit card, admin will have to pay the kantin and pengantar for their money. there is also refund page for the user"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "projectName": "Clean Sweep",
+    "projectDesc": "Clean Sweep is a web-based app that is built using Laravel and TailwindCSS. This app is something like a small e-commerce for a Cleaning Equipment Store that my friend's parents had.",
+    "projectImg": "images/projects-photo/cs_1.png",
+    "projectUrl": null,
+    "techStack": [
+      {
+        "techName": "Laravel",
+        "techLogo": "laravel.png",
+        "id": 1
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 2
+      }
+    ],
+    "challanges": "At that time i was doing my other project too, so i am a bit overwhelmed doing multiple projects at the same time but that gives me the experience of doing something under pressure, and it come out fine.",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/cs_1.png",
+        "detailDesc": "Homepage, this project UI is more to the simplicity and experience for the user"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_2.png",
+        "detailDesc": "this products here is the highlight in the homepage"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_3.png",
+        "detailDesc": "this is the tutorial for purchasing the products"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_4.png",
+        "detailDesc": "this is the products catalogue, you can browse/search the name and types of products that you want"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_5.png",
+        "detailDesc": "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_6.png",
+        "detailDesc": "this is where you add your adresses for shipping, i integrate RajaOngkir api for this"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_7.png",
+        "detailDesc": "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_8.png",
+        "detailDesc": "this is where your shopping cart is, i use RajaOngkir api for shipping fee calculation"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_9.png",
+        "detailDesc": "this is the payment screen, i use Midtrans payment gateway for this"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_10.png",
+        "detailDesc": "this is where the user can see their transaction history"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_11.png",
+        "detailDesc": "this is the admin panel for user management"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_12.png",
+        "detailDesc": "this is the admin panel for products management"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_13.png",
+        "detailDesc": "this is the admin panel for types management"
+      },
+      {
+        "detailImg": "images/projects-photo/cs_14.png",
+        "detailDesc": "this is the admin panel for transaction management"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "projectName": "Finance Tracker",
+    "projectDesc": "This is as its name suggest, a web app that help it's user manage their income/expenses. I make this project from my Nuxt Mastery course.",
+    "projectImg": "images/projects-photo/ft_1.png",
+    "projectUrl": "https://finance-tracker-punyil.vercel.app/",
+    "techStack": [
+      {
+        "techName": "Nuxt.js",
+        "techLogo": "nuxt.svg",
+        "id": 1
+      },
+      {
+        "techName": "Supabase",
+        "techLogo": "supabase.png",
+        "id": 2
+      }
+    ],
+    "challanges": "A deep-dive project into Nuxt 3, the biggest challange is implementing the new knowledge into practice.",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/ft_1.png",
+        "detailDesc": "the homepage, the UI is very simplisistic and very straightforward."
+      },
+      {
+        "detailImg": "images/projects-photo/ft_2.png",
+        "detailDesc": "A modal, for better UX."
+      },
+      {
+        "detailImg": "images/projects-photo/ft_3.png",
+        "detailDesc": "Preferences settings."
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "projectName": "Nuxt Personal Web",
+    "projectDesc": "A simple personal website that i built using Nuxt's Document-Drive mode.",
+    "projectImg": "images/projects-photo/pb_1.png",
+    "projectUrl": "https://nuxt-personal-web.vercel.app/",
+    "techStack": [
+      {
+        "techName": "Nuxt.js",
+        "techLogo": "nuxt.svg",
+        "id": 1
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 2
+      }
+    ],
+    "challanges": "Using Markdown syntax for the first time is a bit confusing.",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/pb_1.png",
+        "detailDesc": "the homepage, the UI is very simplisistic and very straightforward."
+      },
+      {
+        "detailImg": "images/projects-photo/pb_2.png",
+        "detailDesc": "My about page."
+      },
+      {
+        "detailImg": "images/projects-photo/pb_3.png",
+        "detailDesc": "This page is synced with my Github page."
+      },
+      {
+        "detailImg": "images/projects-photo/pb_4.png",
+        "detailDesc": "The blog page, there is a dynamic table of contents that i am a bit proud of haha."
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "projectName": "Review Resto",
+    "projectDesc": "This is my first ever Vue.js and Laravel project, i learn with this project the usage of API, TailwindCSS, Axios etc. A very simple project.",
+    "projectImg": "images/projects-photo/rr_1.png",
+    "projectUrl": null,
+    "techStack": [
+      {
+        "techName": "Vue.js",
+        "techLogo": "vue.png",
+        "id": 1
+      },
+      {
+        "techName": "Laravel",
+        "techLogo": "laravel.png",
+        "id": 2
+      },
+      {
+        "techName": "TailwindCSS",
+        "techLogo": "tailwind.svg",
+        "id": 3
+      }
+    ],
+    "challanges": "Because this is my first project after i learn the basics of Vue.js and Laravel, i was struggling to implement the knowledge to this project.",
+    "projectDetail": [
+      {
+        "detailImg": "images/projects-photo/rr_1.png",
+        "detailDesc": "the homepage, the UI is very simplisistic and very straightforward."
+      },
+      {
+        "detailImg": "images/projects-photo/rr_2.png",
+        "detailDesc": "The resto detail, in here user can see the detail of the chosen resto."
+      },
+      {
+        "detailImg": "images/projects-photo/rr_3.png",
+        "detailDesc": "the reviews section, it is inside of the resto detail page. User can see other user's reviews and make their own review."
+      },
+      {
+        "detailImg": "images/projects-photo/rr_4.png",
+        "detailDesc": "This is the resto creating page."
+      },
+      {
+        "detailImg": "images/projects-photo/rr_5.png",
+        "detailDesc": "This is the profile and resto management page."
+      }
+    ]
+  }
 ]

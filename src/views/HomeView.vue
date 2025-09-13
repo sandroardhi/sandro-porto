@@ -2,12 +2,13 @@
   <base-container id="main_page">
     <navbar-component></navbar-component>
     <section
-      class="`w-full h-[200vh] relative top-0 bg-black flex justify-center items-center`"
-      :style="{ transform: matrixContainer1 }"
+      class="`w-full h-[100vh] relative top-0 bg-black flex justify-center items-center`"
     >
+      <!-- :style="{ transform: matrixContainer1 }" -->
       <div
         class="w-full h-screen flex items-center bg-black justify-center z-10 overflow-hidden relative"
         id="intro_cover"
+        ref="introCoverElement"
       >
         <div
           class="absolute uppercase top-0 left-0 w-full h-full flex flex-col items-center bg-black justify-center mix-blend-exclusion text-center text-[#E1EFF3] z-[3]"
@@ -30,7 +31,7 @@
             <!-- <span class="absolute -bottom-5 right"
               >Before we begin...</span
             > -->
-            <div
+            <!-- <div
               class="relative h-11 mx-auto w-[85%] md:w-full mt-[0.5rem]"
               v-if="name == null || name === ''"
             >
@@ -73,7 +74,7 @@
                   </svg>
                 </button>
               </form>
-            </div>
+            </div> -->
           </div>
         </div>
         <div
@@ -118,88 +119,112 @@
         </div>
         <span></span>
       </div>
-      <div
-        class="w-full h-screen absolute bg-transparent flex justify-center items-center"
-        id="about_me_container"
-        :style="{ transform: translateAboutMe }"
-      >
-        <div
-          class="w-full h-full p-10 flex justify-center items-center"
-        >
+    </section>
+    <div
+      :class="[
+        'w-full min-h-screen  bg-transparent flex justify-center items-center ',
+        containerTwoVisibility ? 'relative' : 'fixed bottom-0',
+      ]"
+      id="about_me_container"
+    >
+      <!-- :style="{ transform: translateAboutMe }" -->
+      <div class="w-full h-full p-[1rem] flex justify-center items-center">
+        <!-- <div
+          class="backdrop absolute w-full h-[120%] z-[2] backdrop-blur-[55px] "
+        ></div> -->
+        <Transition>
           <div
-            class="backdrop absolute w-full h-[120%] z-[2] backdrop-blur-[55px]"
+            v-if="containerTwoVisibility"
+            class="absolute w-[88%] h-[70%] lg:w-[75%] lg:h-[76%] mt-[6rem] z-[2] rounded-full bg-purple-600 blur-[55px]"
           ></div>
-          <Transition>
-            <div
-              v-if="containerTwoVisibility"
-              class="absolute w-[88%] h-[70%] lg:w-[75%] lg:h-[76%] mt-[6rem] z-[-1] rounded-full bg-purple-600"
-            ></div>
-          </Transition>
-          <div
-            class="w-full lg:w-[80%] min-h-[50%] flex flex-col lg:h-auto bg-[#161B22] rounded-2xl z-[3] border border-[#30363D] mt-[6rem] p-8"
-            id="about_me_card"
-          >
-            <div class="w-full flex items-center">
-              <h1 class="text-2xl md:text-5xl">ABOUT ME</h1>
-              <span
-                class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"
-              ></span>
-            </div>
-            <div class="w-full h-auto mt-5 lg:flex items-center">
-              <div>
-                <div
-                  class="w-24 h-24 mr-3 lg:w-40 lg:h-40 rounded-full relative float-left"
-                >
-                  <img
-                    src="/src/assets/images/profile-pic.jpeg"
-                    class="w-full h-full object-cover rounded-full"
-                    alt="profile-pic"
-                  />
-                </div>
-              </div>
-              <p class="text-wrap">
-                Hello, my name is Sandro Ardhi Saputra. I am an enthusiastic and
-                highly motivated Software Engineering graduate from SMKN 2
-                Surabaya with a strong foundation in web development. Proficient
-                in utilizing cutting-edge technology and tools such as Laravel
-                and Vue.js to create efficient and user-friendly applications.
-                Strong in problem solving, teamwork, and has a high desire to
-                learn.
-              </p>
-            </div>
-            <div class="w-full flex items-center mt-5">
-              <h1 class="text-2xl md:text-5xl">SKILLS</h1>
-              <span
-                class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"
-              ></span>
-            </div>
-            <div
-              class="w-full h-auto mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            >
+        </Transition>
+        <div
+          class="w-full lg:w-[80%] min-h-[50%] flex flex-col lg:h-auto bg-[#161B22] rounded-2xl z-[3] border border-[#30363D] p-8"
+          id="about_me_card"
+        >
+          <div class="w-full flex items-center">
+            <h1 class="text-2xl md:text-5xl">ABOUT ME</h1>
+            <span
+              class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"
+            ></span>
+          </div>
+          <div class="w-full h-auto mt-5 lg:flex items-center lg">
+            <div>
               <div
-                class="col-span-1 h-16"
-                v-for="skill in skills"
-                :key="skill.id"
+                class="w-24 h-24 mr-3 lg:w-40 lg:h-40 rounded-full relative float-left shrink-0"
               >
-                <CardSkill
-                  :skill-logo="skill.skillLogo"
-                  :skill-name="skill.skillName"
-                  :skill-desc="skill.skillDesc"
-                  :id="skill.id"
+                <img
+                  src="/src/assets/images/profile-pic.jpeg"
+                  class="w-full h-full object-cover rounded-full"
+                  alt="profile-pic"
                 />
               </div>
+            </div>
+            <div class="lg:max-w-[80%]">
+              <p class="text-wrap mb-[1rem]">
+                Hello, I'm Sandro Ardhi Saputra, a
+                <span
+                  class="relative z-[1] after:absolute after:content-[''] after:w-full after:h-[7px] after:bg-purple-600 after:bottom-[2px] after:left-0 after:z-[-1]"
+                  >Frontend Web Developer</span
+                >
+                specializing in building modern, responsive, and performant web
+                applications. With over a year of professional experience, I
+                transform ideas and designs into high-quality code, primarily
+                using
+                <span
+                  class="relative z-[1] after:absolute after:content-[''] after:w-full after:h-[7px] after:bg-purple-600 after:bottom-[2px] after:left-0 after:z-[-1]"
+                  >Nuxt.js</span
+                >
+                and
+                <span
+                  class="relative z-[1] after:absolute after:content-[''] after:w-full after:h-[7px] after:bg-purple-600 after:bottom-[2px] after:left-0 after:z-[-1]"
+                  >Tailwind CSS</span
+                >.
+              </p>
+              <p class="text-wrap">
+                My focus is on creating seamless user experiences through clean,
+                efficient, and reusable code. While my main expertise is on the
+                frontend, I also possess a solid foundation in backend
+                development with Laravel. I am a collaborative team player and a
+                passionate lifelong learner, always excited to tackle new
+                challenges and grow as a developer.
+              </p>
+            </div>
+          </div>
+          <div class="w-full flex items-center mt-5">
+            <h1 class="text-2xl md:text-5xl">SKILLS</h1>
+            <span
+              class="flex-grow ml-4 h-[3px] bg-[#30363D] inline-block"
+            ></span>
+          </div>
+          <div
+            class="w-full h-auto mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          >
+            <div
+              class="col-span-1 h-16"
+              v-for="skill in skills"
+              :key="skill.id"
+            >
+              <CardSkill
+                :skill-logo="skill.skillLogo"
+                :skill-name="skill.skillName"
+                :skill-desc="skill.skillDesc"
+                :id="skill.id"
+              />
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section-container bg-color="#FFF" id="projects_container" class="mb-20">
+    <section-container
+      bg-color="#FFF"
+      id="projects_container"
+      class="mb-[3rem] mt-[3rem] lg:mt-0"
+    >
       <div
         :class="
-          containerTwoVisibility
-            ? 'ml-4 w-full md:mx-auto h-screen translate-y-[-20px]'
-            : 'hidden '
+          containerTwoVisibility ? 'w-full md:mx-auto min-h-screen' : 'hidden '
         "
       >
         <Vue3Marquee
@@ -219,13 +244,57 @@
             Projects Projects Projects Projects Projects Projects Projects
           </div></Vue3Marquee
         >
-        <Splide
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem] md:gap-[1.5rem] lg:gap-[2rem] p-[2rem] md:p-[3rem] lg:p-[5rem]"
+        >
+          <div class="col-span-1" v-for="(project, i) in projects" :key="i">
+            <router-link
+              :to="'/project-detail/' + project.id"
+              class="w-full h-full relative"
+            >
+              <div class="splide__slide__container mt-[5rem]">
+                <img :src="project.projectImg" :alt="project.projectName" />
+              </div>
+              <div
+                :id="'projectDesc_' + i"
+                class="opacity-100 transition-all ease-in-out duration-300 flex flex-col items-center justify-center"
+              >
+                <h1
+                  id="projectName"
+                  class="text-2xl absolute top-0 left-0 uppercase py-3 px-2 font-bold my-2 bg-white text-black"
+                >
+                  {{ project.projectName }}
+                </h1>
+                <p class="mt-4" v-html="project.projectDesc"></p>
+                <div class="w-full h-auto flex justify-between mt-3">
+                  <div class="flex flex-wrap">
+                    <p
+                      class="px-2 py-1 rounded-full border-2 w-fit mx-1 my-1 text-xs md:text-sm"
+                      v-for="(tech, i) in project.techStack"
+                      :key="i"
+                    >
+                      {{ tech.techName }}
+                    </p>
+                  </div>
+                  <div>
+                    <p
+                      class="px-2 py-1 hover:border-b transition-all ease-in duration-150"
+                    >
+                      click to see more ->
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+        <!-- <Splide
           @splide:active="onSplideActive"
           :has-track="false"
           :options="options"
           aria-label="Projects Carousel"
           class="mx-auto"
-        >
+          >
           <SplideTrack>
             <SplideSlide v-for="(project, i) in projects" :key="i">
               <router-link
@@ -237,7 +306,7 @@
                 </div>
                 <div
                   :id="'projectDesc_' + i"
-                  class="opacity-0 transition-all ease-in-out duration-300 flex flex-col items-center justify-center"
+                  class="opacity-100 transition-all ease-in-out duration-300 flex flex-col items-center justify-center"
                 >
                   <h1
                     id="projectName"
@@ -315,10 +384,10 @@
               </svg>
             </button>
           </div>
-        </Splide>
+        </Splide> -->
       </div>
     </section-container>
-    <section class="w-full h-52 -mt-52">
+    <section class="w-full h-52">
       <footer-component></footer-component>
     </section>
   </base-container>
@@ -349,13 +418,16 @@ const windowHeight = ref(0);
 
 const containerTwoVisibility = ref(false);
 
+const introCoverElement = ref(null);
 const introCover = ref(0);
 const aboutMe = ref(0);
 
-const introVideoDownSpeed = ref(0.8);
+const introVideoDownSpeed = ref(0.4);
 
 const name = ref(null);
 const nameForm = ref(null);
+
+let introCoverObserver = null;
 
 const options = {
   width: "100%",
@@ -399,45 +471,34 @@ const onSplideActive = (slide) => {
 
 const skills = ref([
   {
+    id: 7,
+    skillName: "Nuxt.js",
+    skillLogo: "nuxt.svg",
+  },
+  {
     id: 1,
-    skillName: "Vue.JS",
+    skillName: "Vue.js",
     skillLogo: "vue.png",
-    skillDesc:
-      "Vue (pronounced /vjuː/, like view) is a JavaScript framework for building user interfaces. It builds on top of standard HTML, CSS, and JavaScript and provides a declarative, component-based programming model that helps you efficiently develop user interfaces of any complexity.",
   },
   {
     id: 2,
     skillName: "Laravel",
     skillLogo: "laravel.png",
-    skillDesc:
-      "Laravel is a free and open-source PHP- based web framework for building high-end web applications. It was created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony. Some of the features of Laravel include modular packaging system with a dedicated dependency manager, different ways for accessing relational databases, utilities that aid in application deployment and maintenance, and its orientation toward syntactic sugar.",
   },
   {
     id: 3,
     skillName: "Tailwind",
     skillLogo: "tailwind.svg",
-    skillDesc:
-      "Tailwind CSS is a CSS framework that includes a collection of utility classes for quickly building custom interfaces. Tailwind CSS is different from CSS frameworks such as Bootstrap, Bulma, or Foundation, because Tailwind CSS is not a UI Framework.[5] Tailwind CSS has neither a default theme nor built-in UI components. Tailwind CSS is designed to be used by users according to the custom designs they want.",
   },
   {
     id: 4,
     skillName: "JavaScript",
     skillLogo: "js.png",
-    skillDesc:
-      "An object-oriented computer programming language commonly used to create interactive effects within web browsers.",
-  },
-  {
-    id: 5,
-    skillName: "HTML",
-    skillLogo: "html.png",
-    skillDesc:
-      "Hypertext Markup Language, a standardized system for tagging text files to achieve font, color, graphic, and hyperlink effects on World Wide Web pages.",
   },
   {
     id: 6,
     skillName: "CSS",
     skillLogo: "css.png",
-    skillDesc: "CSS is the language we use to style a Web page",
   },
 ]);
 
@@ -463,15 +524,6 @@ const checkName = () => {
   }
 };
 
-window.addEventListener("scroll", function (event) {
-  scrollYValue.value = this.scrollY;
-
-  introCover.value =
-    scrollYValue.value / (scrollHeight.value - introCoverHeight.value);
-  aboutMe.value =
-    scrollYValue.value / (scrollHeight.value - aboutMeHeight.value);
-});
-
 const projectsContainerMarginTopCalc = () => {
   // Get references to your container and object
   var aboutMeContainer = document.getElementById("about_me_container");
@@ -488,7 +540,7 @@ const projectsContainerMarginTopCalc = () => {
 
   // Calculate overflow height if the object overflows
   var overflowHeight =
-    objectHeight > containerHeight ? (objectHeight - containerHeight): 0;
+    objectHeight > containerHeight ? objectHeight - containerHeight : 0;
   // END OF CALC OVERFLOW
 
   // CALC DISTANCE
@@ -499,7 +551,8 @@ const projectsContainerMarginTopCalc = () => {
   var topOfElement2 = projectsContainer.getBoundingClientRect().top;
 
   // Calculate the distance between them
-  var distanceCalc =  bottomOfElement1 + overflowHeight - topOfElement2 + addOnHeight
+  var distanceCalc =
+    bottomOfElement1 + overflowHeight - topOfElement2 + addOnHeight;
   if (distance.value == 0) {
     distance.value = distanceCalc;
     projectsContainer.style.transform = `matrix(1,0,0,1,0,${distance.value})`;
@@ -507,7 +560,8 @@ const projectsContainerMarginTopCalc = () => {
 };
 
 watch(containerTwoVisibility, () => {
-  projectsContainerMarginTopCalc();
+  console.log("visibility changed", containerTwoVisibility.value);
+  // projectsContainerMarginTopCalc();
 });
 
 // Function to update height values
@@ -523,8 +577,43 @@ const updateHeights = () => {
   windowHeight.value = window.innerHeight;
 };
 
+const handleScroll = () => {
+  // Cek posisi scroll vertikal dari window (seluruh halaman)
+  // if (window.scrollY > 320) {
+  //   containerTwoVisibility.value = true;
+  // } else {
+  //   containerTwoVisibility.value = false;
+  // }
+
+  // scrollYValue.value = this.scrollY;
+
+  introCover.value =
+    scrollYValue.value / (scrollHeight.value - introCoverHeight.value);
+  aboutMe.value =
+    scrollYValue.value / (scrollHeight.value - aboutMeHeight.value);
+};
+
 // Call updateHeights when component is mounted
 onMounted(() => {
+  const options = {
+    root: null,
+    threshold: 0.0,
+  };
+
+  introCoverObserver = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) {
+      containerTwoVisibility.value = true;
+    } else {
+      containerTwoVisibility.value = false;
+    }
+  }, options);
+
+  // Mulai amati elemen yang sudah kita tandai dengan ref
+  if (introCoverElement.value) {
+    introCoverObserver.observe(introCoverElement.value);
+  }
+  window.addEventListener("scroll", handleScroll);
+
   updateHeights();
   checkName();
   // Listen for window resize event and update heights accordingly
@@ -534,6 +623,10 @@ onMounted(() => {
 // Remove event listener when component is unmounted to prevent memory leaks
 onUnmounted(() => {
   window.removeEventListener("resize", updateHeights);
+  window.removeEventListener("scroll", handleScroll);
+  if (introCoverObserver) {
+    introCoverObserver.disconnect();
+  }
 });
 
 const matrixContainer1 = computed(() => {
@@ -549,23 +642,23 @@ const translateIntroCover = computed(() => {
   return `translateY(${cappedTranslateYValue}%)`;
 });
 
-const translateAboutMe = computed(() => {
-  const translateYValue = aboutMe.value * 100 * 2;
-  const cappedTranslateYValue = translateYValue > 100 ? 100 : translateYValue;
-  if (cappedTranslateYValue == 100) {
-    containerTwoVisibility.value = true;
-  } else {
-    containerTwoVisibility.value = false;
-  }
+// const translateAboutMe = computed(() => {
+//   const translateYValue = aboutMe.value * 100 * 2;
+//   const cappedTranslateYValue = translateYValue > 100 ? 100 : translateYValue;
+//   if (cappedTranslateYValue == 100) {
+//     containerTwoVisibility.value = true;
+//   } else {
+//     containerTwoVisibility.value = false;
+//   }
 
-  let scale3dValue = cappedTranslateYValue;
+//   let scale3dValue = cappedTranslateYValue;
 
-  if (cappedTranslateYValue < 50) {
-    scale3dValue = 50;
-  }
+//   if (cappedTranslateYValue < 50) {
+//     scale3dValue = 50;
+//   }
 
-  return `translateY(${cappedTranslateYValue}%) `;
-});
+//   return `translateY(${cappedTranslateYValue}%) `;
+// });
 </script>
 
 <style>
