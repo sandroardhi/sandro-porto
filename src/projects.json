@@ -61,7 +61,7 @@
   {
     "id": "7",
     "projectName": "Adaboard",
-    "projectDesc": "Adaboard (link: <a href='adaboard.id' target='_blank' rel='noopener noreferrer'>adaboard.id</a>) is the foundational web presence for a new software house initiative, envisioned as a subsidiary of my current company. The website's primary goal is to establish a strong and professional brand identity, create a compelling digital front door to attract potential clients, and clearly showcase its vision and future services.",
+    "projectDesc": "Adaboard (link: <a href='adaboard.id' target='_blank' rel='noopener noreferrer'>adaboard.id</a>) is the foundational web presence for a new software house. The website's primary goal is to establish a strong and professional brand identity, create a compelling digital front door to attract potential clients, and clearly showcase its vision and future services.",
     "projectImg": "images/projects-photo/adaboard_1.webp",
     "projectUrl": "adaboard.id",
     "techStack": [
@@ -81,7 +81,7 @@
     "projectDetail": [
       {
         "detailImg": "images/projects-photo/adaboard_1.webp",
-        "detailDesc": "the Homepage, i make the UI to be modern looking as to show our brand identity."
+        "detailDesc": "the Homepage, i make the UI to be modern looking to show the brand identity."
       },
       {
         "detailImg": "images/projects-photo/adaboard_2.webp",

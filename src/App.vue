@@ -1,24 +1,21 @@
 <script setup>
-import { RouterView, useRoute } from "vue-router";
-
-const route = useRoute()
+import { RouterView } from "vue-router";
+import LiquidStage from "@/malleable/LiquidStage.vue";
+import SiteHeader from "@/malleable/SiteHeader.vue";
+import LiquidCursor from "@/malleable/LiquidCursor.vue";
+import "@/malleable/malleable.css";
 </script>
 
 <template>
+  <LiquidStage />
+  <SiteHeader />
   <router-view v-slot="{ Component, route }">
     <component :is="Component" :key="route.path" />
   </router-view>
+  <LiquidCursor />
 </template>
 
 <style>
-@font-face {
-  font-family: "Nimbus Sans";
-  src: url("@/assets/fonts/NimbusSanL-Reg.otf");
-}
-div {
-  box-sizing: border-box;
-}
-
 /* A good global reset */
 * {
   margin: 0;
