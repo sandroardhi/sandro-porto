@@ -2,7 +2,9 @@
 // Ported from the liquid-hero prototype.
 export const vertexShader = `attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }`;
 
-export const fragmentShader = (FOC, CAMZ) => `
+// steps / prism / blobs: raymarch steps, dispersion samples and loose-blob slots; loopNormal: see nrm. The defaults are the full desktop look;
+// lighter values are for weak or picky mobile GPUs.
+export const fragmentShader = (FOC, CAMZ, { steps = 90, prism: PN = 7, blobs: BN = 12, loopNormal = false } = {}) => `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
 #else
@@ -12,7 +14,7 @@ uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform vec3 uState
 uniform float uHue, uWobble, uThick, uPull, uDrop, uEnergy, uShift, uMat, uDisp, uCat, uStar, uFish; uniform vec2 uTilt;
 // compact screens only (none on desktop): up to 12 loose blobs of glass in world space, each (x, y, radius, blend), the ray's
 // bounding sphere (x, y, r) and a floor on the scale used for surface detail, so a blob stays smooth while the shape is tiny
-uniform vec4 uP[12]; uniform float uPN; uniform vec3 uBound; uniform float uMinSc;
+uniform vec4 uP[${BN}]; uniform float uPN; uniform vec3 uBound; uniform float uMinSc;
 const float FOC = ${FOC.toFixed(2)}; const float CAMZ = ${CAMZ.toFixed(2)};
 vec3 M; vec3 OFF; float SC;
 
@@ -171,7 +173,7 @@ float mapL(vec3 p){
 // Loose blobs of the same glass, each one wobbling on its own; neighbours melt into each other and into the shape.
 float mapW(vec3 p){
   float d = mapL(toLocal(p))*SC;
-  for (int i = 0; i < 12; i++) {
+  for (int i = 0; i < ${BN}; i++) {
     if (float(i) >= uPN) break;
     vec4 b = uP[i];
     vec3 q = p - vec3(b.xy, 0.);
@@ -181,10 +183,20 @@ float mapW(vec3 p){
   return d;
 }
 
+${loopNormal ? `// the same four taps in a loop the compiler can't unroll (the bound reads a uniform), so the whole
+// scene is compiled once here instead of four times: a much smaller program for mobile drivers
 vec3 nrm(vec3 p){
+  float e = .0015*max(SC, uMinSc); vec3 n = vec3(0.);
+  for (int i = 0; i < 4; i++) {
+    if (float(i) >= uPN + 4.) break;
+    vec3 k = 2.*vec3(float((i+3)/2 - 2*((i+3)/4)), float(i/2 - 2*(i/4)), float(i - 2*(i/2))) - 1.;
+    n += k*mapW(p + k*e);
+  }
+  return normalize(n);
+}` : `vec3 nrm(vec3 p){
   const vec2 k = vec2(1.,-1.); float e = .0015*max(SC, uMinSc);
   return normalize(k.xyy*mapW(p+k.xyy*e) + k.yyx*mapW(p+k.yyx*e) + k.yxy*mapW(p+k.yxy*e) + k.xxx*mapW(p+k.xxx*e));
-}
+}`}
 
 // pearl -> copper -> umber -> teal -> blue -> pearl, pearl held longest like the video
 vec3 pal(float x){
@@ -242,8 +254,8 @@ vec3 prism(vec3 p, vec3 rd, vec3 n){
   float fr = pow(1.-ndv, 3.);
   float F = mix(.18, 1., fr);                       // glass fresnel, pushed up so it reads chrome-bright
   vec3 acc = vec3(0.), ws = vec3(0.);
-  for (int i = 0; i < 7; i++) {
-    float x = float(i)/6.;
+  for (int i = 0; i < ${PN}; i++) {
+    float x = ${PN > 1 ? `float(i)/${PN - 1}.` : '.5'};
     vec3 w = spectrum(x*.82);
     float k = (x - .5)*uDisp;                        // each wavelength bends a little differently
     vec3 rr = reflect(rd, n); rr.y += k*.42*(.35 + fr); rr = normalize(rr);
@@ -280,7 +292,7 @@ void main(){
   if (h > 0.) {
     h = sqrt(h); float t = max(-b-h, 0.), tmax = -b+h;
     float dmin = 1e3, tmin = t; bool hit = false;
-    for (int i=0; i<90; i++) {
+    for (int i=0; i<${steps}; i++) {
       vec3 p = ro + rd*t;
       float d = mapW(p);
       if (d < dmin) { dmin = d; tmin = t; }

@@ -17,6 +17,10 @@ html { background: var(--ink); }
 /* body stays transparent on purpose: an opaque body would paint over the z-index:-1 canvas. html carries the black. */
 body { margin: 0; background: transparent; color: var(--paper); font-family: var(--font-body); font-size: 15px; line-height: 1.5; overflow-x: hidden; }
 #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; display: block; }
+/* phones: the canvas rides the page (see liquid.js), inside a box the size of the app that clips it so it can't lengthen the page */
+.gl-wrap { display: contents; }
+.gl-wrap.ride { display: block; position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
+.gl-wrap.ride #gl { position: absolute; inset: auto; top: 0; left: 0; width: 100%; will-change: transform; }
 .fallback { position: fixed; inset: 0; z-index: -1; display: grid; place-items: center; }
 .fallback::before { content: ""; width: min(70vmin, 560px); aspect-ratio: 1; border-radius: 50%;
   background: conic-gradient(from 40deg, #efe9df, #c9733a, #5a2c16, #1b8a8f, #3a62bf, #efe9df);
@@ -215,6 +219,7 @@ body { margin: 0; background: transparent; color: var(--paper); font-family: var
    and liquid.js fits the shape into it. Keep this query in sync with COMPACT_QUERY in liquid.js. */
 .slot { display: none; }
 @media (max-width: 899px), (max-aspect-ratio: 9/10) {
+  #app { position: relative; }   /* the box .gl-wrap.ride clips the riding canvas to */
   .slot { display: block; height: clamp(15rem, 44svh, 30rem); pointer-events: none; }
   .manifesto, .work, .path { min-height: 0; padding-block: 12svh; }
   .case-head .slot { flex: 1 0 auto; }

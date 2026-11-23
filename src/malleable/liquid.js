@@ -2,6 +2,7 @@
 // Sections opt in with data-shape="<name>"; as you scroll, the glass melts from one
 // section's shape into the next. Elements with data-liquid stir it on hover.
 import { vertexShader, fragmentShader } from './shader.js'
+import { diag, diagOverrides, note } from './diag.js'
 
 const FOC = 1.8, CAMZ = 3.2
 
@@ -27,6 +28,10 @@ export const SHAPES = {
 // Keep this query in sync with the .slot media query in malleable.css.
 export const COMPACT_QUERY = '(max-width: 899px), (max-aspect-ratio: 9/10)'
 const HALF_H = 0.5 * CAMZ / FOC
+// The height the glass is laid out against: innerHeight on desktop; on compact screens the large viewport height,
+// which stays put while a phone's URL bar slides in and out (set by createLiquid).
+let VH = 0
+const vh = () => VH || innerHeight
 // rough visual radius of each shape per unit of size, so every shape fills its stage about the same
 const REACH = { hero: 1.12, contact: 1.12, corner: 1.12, cat: 1.05, star: 1.0, fish: 1.15 }
 
@@ -40,7 +45,7 @@ function place(el, compact, fit) {
   if (!compact) return st
   const slot = el && (el.dataset.slot === 'self' ? el : el.querySelector(':scope > .slot'))
   if (!slot) { st.s = 0; return st }
-  const r = slot.getBoundingClientRect(), h = innerHeight
+  const r = slot.getBoundingClientRect(), h = vh()
   const rad = (Math.min(r.width, r.height) / h) * HALF_H   // half the stage's short side, in world units
   st.s = rad / (REACH[name] || 1) / fit
   st.x = ((r.left + r.width / 2) / innerWidth) * 2 - 1
@@ -54,7 +59,7 @@ function targetState(compact = false, fit = 1) {
   if (sections.length < 2) return place(sections[0], compact, fit)
   // Each section takes over only once it's really on screen: the shape holds until the next
   // section's top climbs from 70% to 30% of the viewport, then melts across.
-  const h = innerHeight
+  const h = vh()
   let pos = 0
   for (let k = 1; k < sections.length; k++) pos += smooth(0.7, 0.3, sections[k].getBoundingClientRect().top / h)
   const i = Math.min(Math.floor(pos), sections.length - 1), m = pos - i
@@ -79,7 +84,7 @@ const BLOBS = [
   { side: -1, a: 0.0, r: 0.17, d: 0.16 }, { side: 1, a: 0.1, r: 0.15, d: 0.20 },
 ]
 function stageState(sections, fit) {
-  const h = innerHeight, halfW = HALF_H * innerWidth / h
+  const h = vh(), halfW = HALF_H * innerWidth / h
   let main = null, best = -1, burst = 0, prevAlive = 0
   const blobs = []
   for (const el of sections) {
@@ -126,28 +131,53 @@ function stageState(sections, fit) {
   return st
 }
 
-/** Starts the renderer. Returns a stop function, or null when WebGL isn't available. */
-export function createLiquid(canvas) {
+/** Starts the renderer. Returns a stop function, or null when WebGL isn't available.
+ *  opts: { steps, prism, blobs } shader weight (see fragmentShader); ?gl URL knobs override them. */
+export function createLiquid(canvas, opts = {}) {
+  const onCreateErr = (e) => note('context creation error: ' + (e.statusMessage || '(no message)'))
+  if (diag) canvas.addEventListener('webglcontextcreationerror', onCreateErr)
   const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' })
+  if (diag) canvas.removeEventListener('webglcontextcreationerror', onCreateErr)
+  if (diag) diag.ctx = gl ? (gl.isContextLost() ? 'LOST at start' : 'webgl ok') : 'NULL (no WebGL)'
   if (!gl) return null
   const reduceMq = matchMedia('(prefers-reduced-motion: reduce)')
   const compactMq = matchMedia(COMPACT_QUERY)
+  // compact screens compile the normal as a loop: same picture, about half the program for a phone's shader compiler
+  const sopt = { steps: 90, prism: 7, blobs: MAX_BLOBS, loopNormal: compactMq.matches, ...opts }
+  for (const k in sopt) if (diagOverrides[k] !== undefined) sopt[k] = typeof sopt[k] === 'boolean' ? diagOverrides[k] : Math.max(1, Math.round(diagOverrides[k]))
+  const BN = sopt.blobs
+  if (diag) {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info')
+    diag.renderer = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
+    diag.vendor = ext ? gl.getParameter(ext.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR)
+    const pf = (t) => { const f = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, t); return f ? `${f.precision}b [${f.rangeMin},${f.rangeMax}]` : '?' }
+    diag.highp = pf(gl.HIGH_FLOAT); diag.mediump = pf(gl.MEDIUM_FLOAT)
+    diag.maxFragUniforms = gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS)
+    Object.assign(diag, sopt, { lost: 0, restored: 0, draws: 0, sampled: 0 })
+    canvas.addEventListener('webglcontextlost', () => { diag.lost++; note('webglcontextlost') })
+    canvas.addEventListener('webglcontextrestored', () => { diag.restored++; note('webglcontextrestored') })
+  }
 
   function sh(type, src) {
     const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s)
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s))
+    const log = gl.getShaderInfoLog(s)
+    if (diag && log) diag.shaderLog = (diag.shaderLog || '') + log
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(log || (gl.isContextLost() ? 'context lost while compiling' : 'compile failed, no log'))
     return s
   }
   const prog = gl.createProgram()
+  const tc = performance.now()
   try {
     gl.attachShader(prog, sh(gl.VERTEX_SHADER, vertexShader))
-    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fragmentShader(FOC, CAMZ)))
+    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fragmentShader(FOC, CAMZ, sopt)))
     gl.linkProgram(prog)
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog))
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog) || (gl.isContextLost() ? 'context lost while linking' : 'link failed, no log'))
   } catch (e) {
     console.warn('[liquid] shader failed, using the static fallback', e)
+    if (diag) { diag.shader = 'FAILED'; diag.compileMs = performance.now() - tc; note('shader: ' + e.message) }
     return null
   }
+  if (diag) { diag.shader = 'ok'; diag.compileMs = performance.now() - tc }
   gl.useProgram(prog)
   const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW)
@@ -163,10 +193,33 @@ export function createLiquid(canvas) {
   const weak = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 3
   const phone = compactMq.matches
   let rs = phone ? Math.min(maxScale, weak ? 0.6 : 1) : maxScale
-  function resize() {
-    canvas.width = Math.max(1, Math.round(innerWidth * rs)); canvas.height = Math.max(1, Math.round(innerHeight * rs))
-    gl.viewport(0, 0, canvas.width, canvas.height)
+  if (diagOverrides.rs) rs = diagOverrides.rs
+
+  // Compact screens: the canvas rides the page instead of sitting fixed. It lives in the document (in .gl-wrap, clipped
+  // to the app so it can't lengthen the page) and is moved to the scroll position of every frame it draws, so between
+  // frames the browser scrolls the glass along with the text instead of leaving it behind for a frame or two.
+  // It is sized from 100lvh, so the URL bar sliding in and out doesn't resize, stretch or shift it. Desktop is unchanged.
+  const wrap = canvas.parentElement && canvas.parentElement.classList.contains('gl-wrap') ? canvas.parentElement : null
+  const probe = document.createElement('div')
+  probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100vh;height:100lvh;visibility:hidden;pointer-events:none'
+  document.body.appendChild(probe)
+  let ride = false, sizedW = 0, sizedH = 0, rideY = null
+  function measure() {
+    ride = compactMq.matches && !!wrap
+    VH = ride ? (probe.offsetHeight || innerHeight) : innerHeight
+    if (wrap) wrap.classList.toggle('ride', ride)
+    canvas.style.height = ride ? VH + 'px' : ''
+    if (!ride) { canvas.style.transform = ''; rideY = null }
   }
+  function resize() {
+    canvas.width = Math.max(1, Math.round(innerWidth * rs)); canvas.height = Math.max(1, Math.round(vh() * rs))
+    gl.viewport(0, 0, canvas.width, canvas.height)
+    sizedW = innerWidth; sizedH = vh()
+    if (diag) { diag.rs = rs; diag.cw = canvas.width; diag.ch = canvas.height; diag.vh = VH; diag.ride = ride }
+  }
+  // a phone fires resize every time the URL bar moves; only a real size change (width, rotation) resizes the buffer
+  function onResize() { const was = ride; measure(); if (!ride || was !== ride || innerWidth !== sizedW || vh() !== sizedH) resize() }
+  measure()
   resize()
 
   // input
@@ -174,22 +227,24 @@ export function createLiquid(canvas) {
   let mTarget = [0.55, 0.35], mNow = [0.55, 0.35], mPrev = [0, 0], mSpeed = 0
   let tilt = [0, 0], hoverBoost = 0
   const onMove = (e) => {
-    const uvx = (e.clientX - innerWidth / 2) / innerHeight, uvy = -(e.clientY - innerHeight / 2) / innerHeight
+    const h = vh(), uvx = (e.clientX - innerWidth / 2) / h, uvy = -(e.clientY - h / 2) / h
     mTarget = [uvx * 2 * halfH, uvy * 2 * halfH]
   }
   const onOver = (e) => { hoverBoost = e.target.closest && e.target.closest('[data-liquid]') ? 1 : 0 }
   // touch has no hover, so a tap stirs the glass instead: it pulls toward the finger and splashes
   let splash = 0
   const onDown = (e) => { if (e.pointerType === 'mouse') return; onMove(e); splash = 1 }
-  addEventListener('resize', resize)
+  addEventListener('resize', onResize)
+  compactMq.addEventListener && compactMq.addEventListener('change', onResize)
   addEventListener('pointermove', onMove, { passive: true })
   addEventListener('pointerdown', onDown, { passive: true })
   document.addEventListener('pointerover', onOver, { passive: true })
 
   // loop
-  const fitFor = () => Math.min(1, (innerWidth / innerHeight) * 1.12)
+  const fitFor = () => Math.min(1, (innerWidth / vh()) * 1.12)
   const { blobs: _b, burst: _u, ...cur } = targetState(compactMq.matches, fitFor())
-  let time = 0, last = performance.now(), energy = 0, frames = 0, acc = 0, raf = 0
+  let time = 0, last = performance.now(), energy = 0, frames = 0, acc = 0, raf = 0, ceil = Infinity, good = 0
+  const pv = new Float32Array(BN * 4)
   let lastY = scrollY, sVel = 0, lastDisp = -1, wasEmpty = false
   const t0 = performance.now()
 
@@ -208,7 +263,7 @@ export function createLiquid(canvas) {
 
     splash += (0 - splash) * k(1.6)
     const compact = compactMq.matches
-    const aspect = innerWidth / innerHeight, halfW = halfH * aspect
+    const aspect = innerWidth / vh(), halfW = halfH * aspect
     const fit = fitFor()
     const tgt = targetState(compact, fit)
 
@@ -220,7 +275,7 @@ export function createLiquid(canvas) {
     // (its position is glued to the stage outright, so a hand-off never shows the shape sliding across)
     const rate = (key) => key === 'cat' || key === 'star' || key === 'fish' ? 2.4 : compact && (key === 'x' || key === 'y') ? 1e3 : compact && key === 's' ? 10 : 3.0
     for (const key in cur) cur[key] += (tgt[key] - cur[key]) * k(rate(key))
-    const blobs = compact ? tgt.blobs : []
+    const blobs = compact ? tgt.blobs.slice(0, BN) : []
 
     tilt[0] += ((reduce ? 0 : mNow[0] * 0.18) - tilt[0]) * k(3)
     tilt[1] += ((reduce ? 0 : -mNow[1] * 0.18 + Math.max(-0.5, Math.min(0.5, sVel / 6000))) - tilt[1]) * k(3)
@@ -230,10 +285,21 @@ export function createLiquid(canvas) {
     // adaptive resolution (before drawing: resizing clears the canvas)
     // compact screens check twice as often and step down harder, so a slow phone recovers within a second
     frames++; acc += dt
+    if (diag) diag.worst = Math.max(diag.worst || 0, now - (diag.prevNow || now)), diag.prevNow = now
     if (acc > (compact ? 0.5 : 1)) {
       const fps = frames / acc, floor = compact ? 0.4 : 0.5
-      if (fps < 45 && rs > floor) { rs = Math.max(floor, rs * (compact ? 0.78 : 0.85)); resize() }
-      else if (fps > 58 && rs < maxScale) { rs = Math.min(maxScale, rs * 1.08); resize() }
+      if (diag) { diag.fps = fps; diag.worstMs = diag.worst; diag.worst = 0 }
+      if (diagOverrides.rs) {}   // pinned from the URL
+      else if (fps < 45 && rs > floor) {
+        // compact: remember the size that was too slow and never climb back to it, so the buffer doesn't keep
+        // being reallocated (each reallocation is a hitch of its own)
+        if (compact) ceil = Math.min(ceil, rs * 0.92)
+        rs = Math.max(floor, rs * (compact ? 0.78 : 0.85)); resize(); good = 0
+      }
+      else if (fps > 58 && rs < Math.min(maxScale, compact ? ceil : maxScale) && (!compact || ++good >= 3)) {
+        rs = Math.min(maxScale, compact ? ceil : maxScale, rs * 1.08); resize(); good = 0
+      }
+      else if (fps <= 58) good = 0
       frames = 0; acc = 0
     }
 
@@ -247,7 +313,7 @@ export function createLiquid(canvas) {
     // blobs (compact only), in world units; the ray's bounding sphere has to take them in too
     const br = (1.3 + 0.4 * cur.fish) * sz + 0.05   // the shape's own bound (the fish is the longest)
     let x0 = ox - br, x1 = ox + br, y0 = oy - br, y1 = oy + br
-    const pv = new Float32Array(MAX_BLOBS * 4)
+    pv.fill(0)
     blobs.forEach((b, i) => {
       pv.set([b.x, b.y, b.r, b.k], i * 4)
       const pad = b.r * 1.3 + 0.03
@@ -275,12 +341,30 @@ export function createLiquid(canvas) {
     const empty = !drawn && sz < 2e-3
     if (!empty || !wasEmpty) gl.drawArrays(gl.TRIANGLES, 0, 3)
     wasEmpty = empty
+    // moved in the same frame as the draw, so the new picture and its new place reach the screen together
+    if (ride && rideY !== y) { canvas.style.transform = `translate3d(0,${y}px,0)`; rideY = y }
+    if (diag) {
+      diag.compact = compact; diag.sz = sz; diag.drawn = drawn
+      if (!empty) diag.draws++
+      // every ~half second, read the frame back: is the GPU actually putting glass on screen?
+      // (a full read-back stalls the GPU and shows up as a dip in fps, so it only runs with ?gl&px)
+      if (diag.q.has('px') && !empty && now - (diag.lastSample || 0) > 500) {
+        diag.lastSample = now
+        const w = canvas.width, h = canvas.height, px = new Uint8Array(w * h * 4)
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px)
+        let lit = 0, mx = 0
+        for (let i = 0; i < px.length; i += 4) { const l = Math.max(px[i], px[i + 1], px[i + 2]); if (l > 40) lit++; if (l > mx) mx = l }
+        diag.lit = (100 * lit / (w * h)).toFixed(1) + '%'; diag.maxLum = mx; diag.sampled++
+        const err = gl.getError(); if (err) note('gl error 0x' + err.toString(16))
+      }
+    }
 
     // liquid text: the SVG filter's displacement follows scroll/hover energy
     const disp = document.getElementById('disp'), turb = document.getElementById('turb')
     const ds = reduce ? 0 : Math.round(energy * 28)
     if (disp && ds !== lastDisp) { disp.setAttribute('scale', ds); lastDisp = ds }
-    if (turb && !reduce && ds > 0) turb.setAttribute('baseFrequency', (0.008 + 0.002 * Math.sin(time * 0.7)).toFixed(4) + ' ' + (0.022 + 0.004 * Math.cos(time * 0.5)).toFixed(4))
+    // compact: the noise stays put (regenerating it every frame competes with the glass for the GPU); the ripple still follows the scroll
+    if (turb && !reduce && ds > 0 && !compact) turb.setAttribute('baseFrequency', (0.008 + 0.002 * Math.sin(time * 0.7)).toFixed(4) + ' ' + (0.022 + 0.004 * Math.cos(time * 0.5)).toFixed(4))
 
     raf = requestAnimationFrame(frame)
   }
@@ -288,7 +372,12 @@ export function createLiquid(canvas) {
 
   return function stop() {
     cancelAnimationFrame(raf)
-    removeEventListener('resize', resize)
+    removeEventListener('resize', onResize)
+    compactMq.removeEventListener && compactMq.removeEventListener('change', onResize)
+    probe.remove()
+    if (wrap) wrap.classList.remove('ride')
+    canvas.style.height = ''; canvas.style.transform = ''
+    VH = 0
     removeEventListener('pointermove', onMove)
     removeEventListener('pointerdown', onDown)
     document.removeEventListener('pointerover', onOver)
