@@ -10,6 +10,9 @@ precision mediump float;
 #endif
 uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform vec3 uState;
 uniform float uHue, uWobble, uThick, uPull, uDrop, uEnergy, uShift, uMat, uDisp, uCat, uStar, uFish; uniform vec2 uTilt;
+// compact screens only (none on desktop): up to 12 loose blobs of glass in world space, each (x, y, radius, blend), the ray's
+// bounding sphere (x, y, r) and a floor on the scale used for surface detail, so a blob stays smooth while the shape is tiny
+uniform vec4 uP[12]; uniform float uPN; uniform vec3 uBound; uniform float uMinSc;
 const float FOC = ${FOC.toFixed(2)}; const float CAMZ = ${CAMZ.toFixed(2)};
 vec3 M; vec3 OFF; float SC;
 
@@ -165,10 +168,21 @@ float mapL(vec3 p){
   if (r > .004) d = smin(d, length(p-M)-r, .24);
   return d;
 }
-float mapW(vec3 p){ return mapL(toLocal(p))*SC; }
+// Loose blobs of the same glass, each one wobbling on its own; neighbours melt into each other and into the shape.
+float mapW(vec3 p){
+  float d = mapL(toLocal(p))*SC;
+  for (int i = 0; i < 12; i++) {
+    if (float(i) >= uPN) break;
+    vec4 b = uP[i];
+    vec3 q = p - vec3(b.xy, 0.);
+    float f = float(i)*1.9, w = 1. + .13*sin(q.x/b.z*2.6 + uTime*3.1 + f)*sin(q.y/b.z*2.2 - uTime*2.4 + f);
+    d = smin(d, (length(q) - b.z*w)*.8, b.w);
+  }
+  return d;
+}
 
 vec3 nrm(vec3 p){
-  const vec2 k = vec2(1.,-1.); float e = .0015*SC;
+  const vec2 k = vec2(1.,-1.); float e = .0015*max(SC, uMinSc);
   return normalize(k.xyy*mapW(p+k.xyy*e) + k.yyx*mapW(p+k.yyx*e) + k.yxy*mapW(p+k.yxy*e) + k.xxx*mapW(p+k.xxx*e));
 }
 
@@ -188,7 +202,7 @@ vec3 hue(vec3 c, float a){ const vec3 k=vec3(.57735); float ca=cos(a); return c*
 
 vec3 pearl(vec3 p, vec3 rd, vec3 n){
   vec3 v = -rd; float ndv = max(dot(n,v), 0.);
-  vec3 q = toLocal(p); float t = uTime;
+  vec3 q = toLocal(p)*SC/max(SC, uMinSc); float t = uTime;
   float fn = .5*sin(q.x*8.+t*.6+1.5*sin(q.y*5.-t*.4)) + .3*sin(q.y*11.-t*.5+q.z*7.) + .2*sin(q.z*15.+q.x*6.+t*.8);
   float film = .16 + .42*fn + .34*(1.-ndv) + uShift;           // view-angle dependent: the thin-film shimmer
   vec3 base = clamp(hue(pal(film), uHue), 0., 1.);
@@ -239,7 +253,7 @@ vec3 prism(vec3 p, vec3 rd, vec3 n){
   }
   vec3 col = acc/ws;
   // thin-film sheen at grazing angles: saturated, not pastel
-  vec3 q = toLocal(p);
+  vec3 q = toLocal(p)*SC/max(SC, uMinSc);
   float fn = .5*sin(q.x*6. + uTime*.5 + 1.2*sin(q.y*4. - uTime*.3)) + .3*sin(q.y*9. + q.z*6. - uTime*.4);
   col += spectrum(fract(fn*.5 + (1.-ndv)*1.3 + uShift))*pow(1.-ndv, 2.2)*.35*(.2 + col)*(1.2 - .5*min(col, 1.));
   float l = dot(col, vec3(.299, .587, .114));
@@ -257,11 +271,11 @@ float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
 
 void main(){
   vec2 uv = (gl_FragCoord.xy - .5*uRes)/uRes.y;
-  SC = uState.x; OFF = vec3(uState.yz, 0.);
+  SC = max(uState.x, 1e-3); OFF = vec3(uState.yz, 0.);
   M = toLocal(vec3(uMouse, 0.));
   vec3 ro = vec3(0.,0.,CAMZ), rd = normalize(vec3(uv, -FOC));
   vec3 col = vec3(0.);
-  vec3 oc = ro-OFF; float br = (1.3 + .4*uFish)*SC + .05;   // the fish is longer than the ring and the cat
+  vec3 oc = ro-vec3(uBound.xy, 0.); float br = uBound.z;   // set from JS: the shape (the fish is longest) plus any stream
   float b = dot(oc,rd), c = dot(oc,oc)-br*br, h = b*b-c;
   if (h > 0.) {
     h = sqrt(h); float t = max(-b-h, 0.), tmax = -b+h;
@@ -278,7 +292,7 @@ void main(){
     float cover = hit ? 1. : 1.-smoothstep(0., px*1.6, dmin);
     if (cover > 0.) col = shade(ro + rd*(hit ? t : tmin), rd)*cover;   // anti-aliased silhouette
     // faint coloured haze hugging the ring, so it sits in space instead of on flat black
-    vec3 haze = mix(clamp(hue(pal(.4), uHue), 0., 1.), vec3(.55,.6,.75), uMat)*.16*exp(-dmin*7./SC)*smoothstep(.34*SC, .1*SC, dmin);
+    vec3 haze = mix(clamp(hue(pal(.4), uHue), 0., 1.), vec3(.55,.6,.75), uMat)*.16*exp(-dmin*7./max(SC, uMinSc))*smoothstep(.34*max(SC, uMinSc), .1*max(SC, uMinSc), dmin);
     col += haze*(1.-cover)*(1.+uEnergy);
   }
   col += (hash(gl_FragCoord.xy + fract(uTime*7.)*91.) - .5)*.03;  // film grain

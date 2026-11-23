@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { COMPACT_QUERY } from '@/malleable/liquid.js'
 import projects from '@/projects.json'
 
 const base = import.meta.env.BASE_URL
@@ -53,6 +54,7 @@ const title = ref(null)
 function malleableTitle(el) {
   const chars = [...el.querySelectorAll('.ch')]
   const reduce = matchMedia('(prefers-reduced-motion: reduce)')
+  const compact = matchMedia(COMPACT_QUERY)   // half the swell on small screens, so line one never outgrows the column
   const cur = chars.map(() => ({ w: 82, g: 400 }))
   const ptr = { x: 0, y: 0, on: false }
   let id = 0, prev = performance.now(), t = 0, seen = true
@@ -72,6 +74,7 @@ function malleableTitle(el) {
       let f = 0
       if (rects) { const r = rects[i], dx = (r.left + r.width / 2 - ptr.x) / R, dy = (r.top + r.height / 2 - ptr.y) / (R * 0.8); f = Math.exp(-(dx * dx + dy * dy)) }
       const wave = Math.sin(t * 0.5 - i * 0.3)
+      if (compact.matches) f *= 0.5
       cur[i].w += (82 + 30 * f + 4 * wave - cur[i].w) * k
       cur[i].g += (400 + 240 * f + 35 * wave - cur[i].g) * k
       c.style.fontVariationSettings = `"wdth" ${cur[i].w.toFixed(1)}, "wght" ${cur[i].g.toFixed(0)}`
@@ -101,7 +104,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('pointerm
 
 <template>
   <main id="top">
-    <section class="hero wrap" data-shape="hero">
+    <section class="hero wrap" data-shape="hero" data-slot="self">
       <div class="x">
         <span class="kicker rise" style="--d:.5s">Hi, I'm Sandro</span>
         <h1 ref="title" aria-label="I build web apps, end to end.">
@@ -118,6 +121,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('pointerm
 
     <section id="how" class="manifesto wrap" data-shape="cat" aria-label="How I work">
       <span class="label">How I work</span>
+      <div class="slot" aria-hidden="true"></div>
       <ol class="x">
         <li data-liquid>Learns fast</li>
         <li data-liquid>Adapts</li>
@@ -137,6 +141,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('pointerm
 
     <section id="work" class="work wrap" data-shape="star" aria-label="Selected work">
       <span class="label">Selected work · {{ work.length }} projects</span>
+      <div class="slot" aria-hidden="true"></div>
       <ul class="x" @pointerleave="leave">
         <li v-for="(p, i) in work" :key="p.id" data-liquid @pointerenter="enter(i, $event)">
           <RouterLink :to="`/work/${p.id}`">
@@ -150,6 +155,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('pointerm
 
     <section id="path" class="path wrap" data-shape="fish" aria-label="Shapes I've taken">
       <span class="label">Shapes I've taken</span>
+      <div class="slot" aria-hidden="true"></div>
       <ol class="x">
         <li v-for="(s, i) in path" :key="s.title">
           <span class="no">{{ String(i + 1).padStart(2, '0') }} · {{ s.step }}</span>
@@ -165,7 +171,7 @@ onBeforeUnmount(() => { cancelAnimationFrame(raf); removeEventListener('pointerm
       </div>
     </section>
 
-    <section id="contact" class="contact wrap" data-shape="contact" aria-label="Contact">
+    <section id="contact" class="contact wrap" data-shape="contact" data-slot="self" aria-label="Contact">
       <div class="x">
         <h2>Pour me into<br>your next project.</h2>
         <ul class="socials">

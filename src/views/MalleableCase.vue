@@ -43,6 +43,7 @@ watchEffect(() => {
   <main v-if="view" class="case">
     <section class="case-head wrap" data-shape="corner">
       <RouterLink class="back x" :to="{ path: '/', hash: '#work' }">← All work</RouterLink>
+      <div class="slot" aria-hidden="true"></div>
       <span class="label">Case study · {{ view.no }} / {{ String(projects.length).padStart(2, '0') }}</span>
       <h1 class="x">{{ view.name }}</h1>
       <dl class="meta x">
@@ -78,7 +79,7 @@ watchEffect(() => {
       </ol>
     </section>
 
-    <section class="case-next wrap" data-shape="contact">
+    <section class="case-next wrap" data-shape="contact" data-slot="self">
       <span class="label x">Next project</span>
       <RouterLink class="x" :to="`/work/${next.id}`" data-liquid><b>{{ next.projectName }}</b></RouterLink>
       <span class="label x">{{ next.techStack.map(t => t.techName).join(' · ') }}</span>

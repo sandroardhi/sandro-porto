@@ -41,6 +41,13 @@ body { margin: 0; background: transparent; color: var(--paper); font-family: var
 .hero h1 .ch { font-variation-settings: "wdth" 82, "wght" 400; }
 .hero .sub { display: block; margin: 1.5rem auto 0; max-width: 34ch; text-wrap: balance; font-size: 13px; letter-spacing: .14em; color: var(--muted); }
 @media (max-width: 640px) { .hero h1 { font-size: 12.5vw; } .hero .sub { font-size: 12px; max-width: none; } .hero .sub > span { display: block; } }
+/* The letters swell and ripple, so a line that only just fits would rewrap back and forth ("APPS," jumping
+   down a line). Each line never wraps, and the size is capped so line one ("I BUILD WEB APPS,", ~6.6em at
+   rest) still fits at its widest swell (~7.9em with the halved swell on small screens). In practice the cap
+   only bites at phone widths; desktop sizes are unchanged. */
+.hero h1 .line > span { white-space: nowrap; }
+.hero h1 { font-size: min(clamp(2.5rem, 7.6vw, 7.6rem), calc((100vw - 48px) / 8)); }
+@media (max-width: 640px) { .hero h1 { font-size: min(12.5vw, calc((100vw - 48px) / 8)); } }
 .hint { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; text-align: center; }
 .hint::after { content: ""; display: block; width: 1px; height: 34px; margin: 10px auto 0; background: currentColor; animation: drip 2.2s ease-in-out infinite; transform-origin: top; }
 @keyframes drip { 0%,100% { transform: scaleY(.2); opacity: .4 } 50% { transform: scaleY(1); opacity: 1 } }
@@ -201,4 +208,21 @@ body { margin: 0; background: transparent; color: var(--paper); font-family: var
   .gallery { grid-template-columns: 1fr; gap: 2.6rem; }
   .prose { font-size: 16px; }
   .path ol li { padding-left: 1.4rem; }
+}
+
+/* ---------- compact: phones and portrait tablets ----------
+   No empty side for the glass here, so each section opens with a stage of its own (.slot)
+   and liquid.js fits the shape into it. Keep this query in sync with COMPACT_QUERY in liquid.js. */
+.slot { display: none; }
+@media (max-width: 899px), (max-aspect-ratio: 9/10) {
+  .slot { display: block; height: clamp(15rem, 44svh, 30rem); pointer-events: none; }
+  .manifesto, .work, .path { min-height: 0; padding-block: 12svh; }
+  .case-head .slot { flex: 1 0 auto; }
+  /* the header has no side margin to live in here, so text scrolls away under a soft fade instead of through it */
+  body::after { content: ""; position: fixed; left: 0; right: 0; top: 0; height: calc(env(safe-area-inset-top, 0px) + 72px);
+    background: linear-gradient(#000 45%, rgba(0, 0, 0, 0)); pointer-events: none; z-index: 3; }
+}
+/* landscape tablets and small laptops keep the desktop layout; the manifesto steps down so it stays clear of the cat */
+@media (min-width: 900px) and (max-width: 1199px) and (min-aspect-ratio: 9/10) {
+  .manifesto li { font-size: 8.2vw; }
 }
