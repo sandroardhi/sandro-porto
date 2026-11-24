@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="is-loading">
   <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/sandro-porto/favicon.ico">
@@ -9,6 +9,52 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&display=swap">
     <title>Sandro - Porto</title>
+    <style>
+      /* Loading screen: paints before any JavaScript, stays until the glass has drawn (src/malleable/loader.js).
+         A soft silver-white sheet (a touch dimmer than the page's paper, so it doesn't glare) with a counter set in Anybody
+         that gets wider and heavier as it climbs. At 100 the greeting takes the screen, then the sheet lifts away like a curtain with a soft bulging edge.
+         Every exit animation is a transform or opacity. */
+      html { background: #000; }
+      #loader { position: fixed; inset: 0; z-index: 100000; display: flex; flex-direction: column; justify-content: space-between;
+        padding: clamp(16px, 2.6vw, 36px); background: #dde6e9; color: #0b1012; will-change: transform;
+        font: 500 11px/1.3 "Helvetica Neue", Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+      /* the curtain's soft bulging bottom edge, hidden until it lifts */
+      #loader::after { content: ""; position: absolute; left: -10%; top: calc(100% - 1px); width: 120%; height: 18vh;
+        background: #dde6e9; border-radius: 0 0 50% 50%; transform: scaleY(0); transform-origin: top; }
+      #loader .ld-row { color: #66757a; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+      #loader .ld-foot { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); }
+      #loader .ld-count { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+      #loader .ld-num { font-family: "Anybody", "Arial Narrow", sans-serif; font-size: clamp(5.5rem, 24vw, 21rem); line-height: .78;
+        letter-spacing: -.02em; text-transform: none; font-variation-settings: "wdth" 50, "wght" 200; margin-left: -.04em; white-space: nowrap; }
+      #loader .ld-num sup { font-size: .26em; vertical-align: top; position: relative; top: .1em; margin-left: .06em; font-variation-settings: "wdth" 100, "wght" 500; }
+      #loader .ld-note { text-align: right; padding-bottom: .3em; color: #66757a; }
+      #loader .ld-note b { font-weight: 500; opacity: .6; }
+      #loader .ld-bar { height: 1px; background: rgba(11, 16, 18, .12); overflow: hidden; }
+      #loader .ld-bar i { display: block; height: 100%; background: #0b1012; transform: scaleX(0); transform-origin: left; }
+      #loader.hi .ld-row, #loader.hi .ld-foot { animation: ld-fade .5s cubic-bezier(.4, 0, .2, 1) forwards; }
+      /* the exit: the sheet lifts away like a curtain, its bottom edge bulging as it goes */
+      #loader.out { pointer-events: none; animation: ld-lift 1.15s cubic-bezier(.76, 0, .24, 1) forwards; }
+      #loader.out::after { animation: ld-bulge 1.15s cubic-bezier(.76, 0, .24, 1) forwards; }
+      @keyframes ld-lift { to { transform: translate3d(0, calc(-100% - 19vh), 0); } }
+      @keyframes ld-bulge { 0% { transform: scaleY(0); } 45% { transform: scaleY(1); } 100% { transform: scaleY(.35); } }
+      @keyframes ld-fade { to { opacity: 0; transform: translate3d(0, -4vh, 0); } }
+      /* "Hi, I'm Sandro": takes the screen once the counter is done, then flies into the hero's kicker. It copies the
+         kicker's face and spacing (sayHi), so it lands on it letter for letter. It slides up from behind a mask, like the hero's intro.
+         The difference blend keeps it dark on the white sheet and pale on the dark page it lands on. */
+      #ld-hi { position: fixed; left: 0; top: 0; z-index: 100001; pointer-events: none; color: #e1eff3; mix-blend-mode: difference;
+        font-family: "Nimbus Sans", "Helvetica Neue", Arial, sans-serif; line-height: 1.1; text-transform: uppercase; white-space: pre;
+        overflow: hidden; transform-origin: 0 0; will-change: transform; transition: opacity .45s ease; }
+      #ld-hi.fly { transition: transform 1s cubic-bezier(.76, 0, .24, 1), opacity .45s ease; }
+      #ld-hi span { display: block; animation: ld-hi-in 1.1s cubic-bezier(.16, 1, .3, 1) both; }
+      #ld-hi.pre span { animation: none; }
+      #ld-hi.gone { opacity: 0; }
+      @keyframes ld-hi-in { from { transform: translate3d(0, 105%, 0); } }
+      @media (max-width: 600px) { #loader .ld-count { flex-direction: column-reverse; align-items: flex-start; } #loader .ld-note { text-align: left; } }
+      @media (prefers-reduced-motion: reduce) {
+        #loader.out, #loader.out::after, #loader.hi .ld-row, #loader.hi .ld-foot { animation: none; }
+        #loader.out { opacity: 0; transition: opacity .45s ease; }
+      }
+    </style>
     <script type="text/javascript">
       (function(l) {
         if (l.search[1] === '/' ) {
@@ -21,10 +67,112 @@
         }
       }(window.location))
     </script>
-    <script type="module" crossorigin src="/sandro-porto/assets/index-BeMDwAHS.js"></script>
-    <link rel="stylesheet" crossorigin href="/sandro-porto/assets/index-BxObWc1-.css">
+    <script type="module" crossorigin src="/sandro-porto/assets/index-CwUOEbrq.js"></script>
+    <link rel="stylesheet" crossorigin href="/sandro-porto/assets/index-k7fzRpCZ.css">
   </head>
   <body>
+    <div id="loader" role="status" aria-label="Loading">
+      <div class="ld-row" aria-hidden="true"><span>Sandro Ardhi Saputra</span><span>Portfolio &copy;2026</span></div>
+      <div class="ld-foot" aria-hidden="true">
+        <div class="ld-count"><div class="ld-num"><span id="ld-num">0</span><sup>%</sup></div><div class="ld-note">Shaping the glass<br><b>Please hold on</b></div></div>
+        <div class="ld-bar"><i id="ld-bar"></i></div>
+      </div>
+    </div>
+    <script>
+      // Drives the loading screen. The app reports real milestones through window.__loader.set(0..1) and calls
+      // done() once the glass is on screen; between milestones the counter creeps so it never sits still.
+      (function () {
+        var d = document, el = d.getElementById('loader'), num = d.getElementById('ld-num'), bar = d.getElementById('ld-bar')
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+        var L = window.__loader = { target: 0, p: 0, fin: false, t0: performance.now() }
+        var last = 0, shown = -1, leaving = false
+        L.set = function (v) { if (v > L.target) L.target = Math.min(v, .97) }
+        L.done = function () { L.fin = true }
+        function out() {
+          if (reduce) {
+            el.classList.add('out'); d.documentElement.classList.remove('is-loading')
+            setTimeout(function () { el.remove() }, 600); return
+          }
+          if (!kickerOnScreen()) {   // not on the hero (a case study, or a reload that kept its scroll): no greeting, just lift
+            el.classList.add('hi', 'out')
+            setTimeout(function () { d.documentElement.classList.remove('is-loading') }, 220)
+            setTimeout(function () { el.remove() }, 1300); return
+          }
+          var hi = sayHi()
+          el.classList.add('hi')   // the counter steps aside for the greeting
+          setTimeout(function () {
+            var kick = d.querySelector('.hero .kicker')
+            // the hero's own "Hi, I'm Sandro" waits for the big one to land instead of rising on its own
+            if (kick) { kick.style.animation = 'none'; kick.style.opacity = '0' }
+            el.classList.add('out')   // the sheet lifts and the page's intro starts under it
+            setTimeout(function () { d.documentElement.classList.remove('is-loading') }, 220)
+            setTimeout(function () { fly(hi, kick) }, 420)
+            setTimeout(function () { el.remove() }, 1300)
+          }, 1050)
+        }
+        // the greeting only makes sense if it has the hero's "Hi, I'm Sandro" in view to fly into
+        function kickerOnScreen() {
+          var kick = d.querySelector('.hero .kicker'); if (!kick) return false
+          var r = kick.getBoundingClientRect()
+          return r.width > 0 && r.top >= 0 && r.bottom <= innerHeight
+        }
+        // builds the greeting, one span per letter, sized to span most of the screen, centred
+        function sayHi() {
+          var box = d.createElement('div'), line = d.createElement('span'), kick = d.querySelector('.hero .kicker')
+          box.id = 'ld-hi'; box.className = 'pre'; box.setAttribute('aria-hidden', 'true')
+          if (kick) {   // the same face, weight and tracking as the kicker it will turn into
+            var cs = getComputedStyle(kick)
+            box.style.fontFamily = cs.fontFamily; box.style.fontWeight = cs.fontWeight
+            box.style.letterSpacing = (parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || .14) + 'em'
+            line.textContent = kick.textContent.trim()
+          } else { box.style.letterSpacing = '.14em'; line.textContent = "Hi, I'm Sandro" }
+          box.appendChild(line); box.style.fontSize = '100px'
+          d.body.appendChild(box)
+          var fs = 100 * Math.min(innerWidth * (innerWidth < 600 ? .88 : .62), 1100) / box.offsetWidth
+          box.style.fontSize = fs.toFixed(1) + 'px'
+          var w = box.offsetWidth, h = box.offsetHeight
+          box.L = (innerWidth - w) / 2; box.T = (innerHeight - h) / 2; box.W = w; box.H = h
+          box.style.transform = 'translate3d(' + box.L + 'px,' + box.T + 'px,0)'
+          box.offsetWidth; box.className = ''   // the line slides up into view
+          return box
+        }
+        // shrinks the greeting onto the kicker's text, then hands over to it
+        function fly(hi, kick) {
+          var r = null
+          if (kick) { var rg = d.createRange(); rg.selectNodeContents(kick); r = rg.getBoundingClientRect() }
+          if (!r || !r.width || r.bottom < 0 || r.top > innerHeight) {   // no kicker on this page, or it's off screen
+            hi.classList.add('gone'); if (kick) { kick.style.opacity = '' }
+            setTimeout(function () { hi.remove() }, 500); return
+          }
+          var k = r.width / hi.W
+          hi.classList.add('fly')
+          hi.style.transform = 'translate3d(' + r.left.toFixed(1) + 'px,' + (r.top + r.height / 2 - k * hi.H / 2).toFixed(1) + 'px,0) scale(' + k.toFixed(4) + ')'
+          setTimeout(function () {
+            kick.style.transition = 'opacity .45s ease'; kick.style.opacity = '1'; hi.classList.add('gone')
+            setTimeout(function () { hi.remove() }, 500)
+          }, 930)
+        }
+        function tick(now) {
+          if (leaving) return
+          var dt = Math.min(100, last ? now - last : 16), t = now - L.t0; last = now
+          var goal = L.fin ? 1 : Math.max(L.target, .9 * (1 - Math.exp(-t / 3200)))
+          L.p += (goal - L.p) * (1 - Math.exp(-dt / (L.fin ? 150 : 300)))
+          if (L.fin && L.p > .995) L.p = 1
+          var p = L.p, n = Math.floor(p * 100)
+          bar.style.transform = 'scaleX(' + p + ')'
+          if (n !== shown) {
+            shown = n; num.textContent = n
+            // the number itself is malleable: wider and heavier as it fills
+            num.parentNode.style.fontVariationSettings = '"wdth" ' + (50 + 100 * p).toFixed(1) + ', "wght" ' + Math.round(200 + 700 * p)
+          }
+          if (p === 1 && t > 1400) { leaving = true; setTimeout(out, 260); return }
+          requestAnimationFrame(tick)
+        }
+        requestAnimationFrame(tick)
+        // never trap anyone behind the loading screen
+        setTimeout(L.done, 15000)
+      })()
+    </script>
     <div id="app"></div>
   </body>
 
