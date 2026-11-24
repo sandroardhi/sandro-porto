@@ -34,6 +34,7 @@ let VH = 0
 const vh = () => VH || innerHeight
 // rough visual radius of each shape per unit of size, so every shape fills its stage about the same
 const REACH = { hero: 1.12, contact: 1.12, corner: 1.12, cat: 1.05, star: 1.0, fish: 1.15 }
+const PHONE_GROW = 1.3
 
 const smooth = (e0, e1, x) => { const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t) }
 const easeOut = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 4)
@@ -47,7 +48,8 @@ function place(el, compact, fit) {
   if (!slot) { st.s = 0; return st }
   const r = slot.getBoundingClientRect(), h = vh()
   const rad = (Math.min(r.width, r.height) / h) * HALF_H   // half the stage's short side, in world units
-  st.s = rad / (REACH[name] || 1) / fit
+  // a phone's stage is only as wide as the screen, so the shape is drawn a bit past it and bleeds off the sides
+  st.s = PHONE_GROW * rad / (REACH[name] || 1) / fit
   st.x = ((r.left + r.width / 2) / innerWidth) * 2 - 1
   st.y = 1 - ((r.top + r.height / 2) / h) * 2
   return st
@@ -132,8 +134,9 @@ function stageState(sections, fit) {
 }
 
 /** Starts the renderer. Returns a stop function, or null when WebGL isn't available.
- *  opts: { steps, prism, blobs } shader weight (see fragmentShader); ?gl URL knobs override them. */
-export function createLiquid(canvas, opts = {}) {
+ *  opts: { steps, prism, blobs } shader weight (see fragmentShader); ?gl URL knobs override them.
+ *  hooks: { onProgress(0..1) at each milestone, onReady() once the glass is on screen, onFail(err) if the shader can't be built }. */
+export function createLiquid(canvas, opts = {}, hooks = {}) {
   const onCreateErr = (e) => note('context creation error: ' + (e.statusMessage || '(no message)'))
   if (diag) canvas.addEventListener('webglcontextcreationerror', onCreateErr)
   const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' })
@@ -158,26 +161,47 @@ export function createLiquid(canvas, opts = {}) {
     canvas.addEventListener('webglcontextrestored', () => { diag.restored++; note('webglcontextrestored') })
   }
 
-  function sh(type, src) {
-    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s)
-    const log = gl.getShaderInfoLog(s)
-    if (diag && log) diag.shaderLog = (diag.shaderLog || '') + log
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(log || (gl.isContextLost() ? 'context lost while compiling' : 'compile failed, no log'))
-    return s
-  }
+  // The shader takes seconds to compile on some GPUs. With KHR_parallel_shader_compile the driver compiles in the
+  // background and we only ask whether it's done once a frame, so the page (and the loading screen) never freezes.
+  // Without it the first status query blocks, so the compile waits two frames for the loading screen to paint first.
+  const par = gl.getExtension('KHR_parallel_shader_compile')
   const prog = gl.createProgram()
-  const tc = performance.now()
-  try {
-    gl.attachShader(prog, sh(gl.VERTEX_SHADER, vertexShader))
-    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fragmentShader(FOC, CAMZ, sopt)))
+  let shaders = [], tc = 0, raf = 0, dead = false, stopRun = null
+  function issue() {
+    tc = performance.now()
+    shaders = [[gl.VERTEX_SHADER, vertexShader], [gl.FRAGMENT_SHADER, fragmentShader(FOC, CAMZ, sopt)]].map(([type, src]) => {
+      const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); gl.attachShader(prog, s); return s
+    })
     gl.linkProgram(prog)
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog) || (gl.isContextLost() ? 'context lost while linking' : 'link failed, no log'))
-  } catch (e) {
-    console.warn('[liquid] shader failed, using the static fallback', e)
-    if (diag) { diag.shader = 'FAILED'; diag.compileMs = performance.now() - tc; note('shader: ' + e.message) }
-    return null
+    if (diag) note('compile issued' + (par ? ' (parallel)' : ' (blocking)'))
+    if (hooks.onProgress) hooks.onProgress(.3)
+    poll()
   }
-  if (diag) { diag.shader = 'ok'; diag.compileMs = performance.now() - tc }
+  function poll() {
+    if (dead) return
+    if (par && !gl.isContextLost() && !gl.getProgramParameter(prog, par.COMPLETION_STATUS_KHR)) { raf = requestAnimationFrame(poll); return }
+    try {
+      if (diag) shaders.forEach(s => { const log = gl.getShaderInfoLog(s); if (log) diag.shaderLog = (diag.shaderLog || '') + log })
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        const bad = shaders.find(s => !gl.getShaderParameter(s, gl.COMPILE_STATUS))
+        throw new Error((bad ? gl.getShaderInfoLog(bad) : gl.getProgramInfoLog(prog)) || (gl.isContextLost() ? 'context lost while compiling' : 'compile/link failed, no log'))
+      }
+    } catch (e) {
+      console.warn('[liquid] shader failed, using the static fallback', e)
+      if (diag) { diag.shader = 'FAILED'; diag.compileMs = performance.now() - tc; note('shader: ' + e.message) }
+      if (hooks.onFail) hooks.onFail(e)
+      return
+    }
+    if (diag) { diag.shader = 'ok'; diag.compileMs = performance.now() - tc }
+    if (hooks.onProgress) hooks.onProgress(.9)
+    stopRun = runLiquid(gl, prog, canvas, { reduceMq, compactMq, BN }, hooks)
+  }
+  raf = requestAnimationFrame(() => { raf = requestAnimationFrame(issue) })
+  return function stop() { dead = true; cancelAnimationFrame(raf); if (stopRun) stopRun() }
+}
+
+// Everything after a successful compile: buffers, sizing, input and the frame loop. Returns its stop function.
+function runLiquid(gl, prog, canvas, { reduceMq, compactMq, BN }, hooks) {
   gl.useProgram(prog)
   const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW)
@@ -245,7 +269,7 @@ export function createLiquid(canvas, opts = {}) {
   const { blobs: _b, burst: _u, ...cur } = targetState(compactMq.matches, fitFor())
   let time = 0, last = performance.now(), energy = 0, frames = 0, acc = 0, raf = 0, ceil = Infinity, good = 0
   const pv = new Float32Array(BN * 4)
-  let lastY = scrollY, sVel = 0, lastDisp = -1, wasEmpty = false
+  let lastY = scrollY, sVel = 0, lastDisp = -1, wasEmpty = false, shown = 0
   const t0 = performance.now()
 
   function frame(now) {
@@ -341,6 +365,8 @@ export function createLiquid(canvas, opts = {}) {
     const empty = !drawn && sz < 2e-3
     if (!empty || !wasEmpty) gl.drawArrays(gl.TRIANGLES, 0, 3)
     wasEmpty = empty
+    // the loading screen leaves once a frame has actually reached the screen (the 2nd draw: the 1st has been presented)
+    if (hooks.onReady && ++shown === 2) { hooks.onReady(); if (diag) note('first frame on screen') }
     // moved in the same frame as the draw, so the new picture and its new place reach the screen together
     if (ride && rideY !== y) { canvas.style.transform = `translate3d(0,${y}px,0)`; rideY = y }
     if (diag) {

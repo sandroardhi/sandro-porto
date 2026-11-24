@@ -3,16 +3,18 @@
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { createLiquid } from './liquid.js'
 import { note } from './diag.js'
+import { hideLoader, setProgress } from './loader.js'
 
 const canvas = ref(null)
 const fallback = ref(false)
 let stop = null
 
-function onLost(e) { e.preventDefault(); if (stop) stop(); stop = null; fallback.value = true; note('context lost: static fallback shown') }
+function showFallback(why) { fallback.value = true; hideLoader(); note(why + ': static fallback shown') }
+function onLost(e) { e.preventDefault(); if (stop) stop(); stop = null; showFallback('context lost') }
 
 onMounted(() => {
-  stop = createLiquid(canvas.value)
-  if (!stop) { fallback.value = true; note('createLiquid returned null: static fallback shown') }
+  stop = createLiquid(canvas.value, {}, { onProgress: setProgress, onReady: hideLoader, onFail: () => { stop = null; showFallback('shader failed') } })
+  if (!stop) showFallback('createLiquid returned null')
   else canvas.value.addEventListener('webglcontextlost', onLost)
 })
 onBeforeUnmount(() => { if (stop) stop(); canvas.value && canvas.value.removeEventListener('webglcontextlost', onLost) })

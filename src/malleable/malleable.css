@@ -127,6 +127,8 @@ body { margin: 0; background: transparent; color: var(--paper); font-family: var
 .has-cursor, .has-cursor a, .has-cursor button, .has-cursor [data-liquid] { cursor: none; }
 @media (pointer: coarse) { .cursor { display: none; } }
 @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
+/* the intro waits behind the loading screen and plays as it fades (index.html, loader.js) */
+html.is-loading .rise { animation-play-state: paused; }
 
 @media (max-width: 640px) {
   .bar { grid-template-columns: 1fr auto; }
@@ -220,7 +222,7 @@ body { margin: 0; background: transparent; color: var(--paper); font-family: var
 .slot { display: none; }
 @media (max-width: 899px), (max-aspect-ratio: 9/10) {
   #app { position: relative; }   /* the box .gl-wrap.ride clips the riding canvas to */
-  .slot { display: block; height: clamp(15rem, 44svh, 30rem); pointer-events: none; }
+  .slot { display: block; height: clamp(17rem, 52svh, 34rem); pointer-events: none; }
   .manifesto, .work, .path { min-height: 0; padding-block: 12svh; }
   .case-head .slot { flex: 1 0 auto; }
   /* the header has no side margin to live in here, so text scrolls away under a soft fade instead of through it */
